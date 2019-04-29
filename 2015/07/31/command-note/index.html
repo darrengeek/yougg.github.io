@@ -1,0 +1,2193 @@
+
+
+  
+    
+  
+
+
+  
+
+
+
+
+
+  
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.39 with theme Tranquilpeak 0.4.3-BETA">
+    <title>Command Note</title>
+    <meta name="author" content="yougg">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="https://yougg.github.io/favicon.png">
+    
+
+    
+    <meta name="description" content="查看进程环境变量 Linux tr \\0 \\n &lt; /proc/${PID}/environ ps eww -p ${PID} Solaris pargs -e ${PID} Windows PowerShell (Get-Process -id %PID%).StartInfo.EnvironmentVariables 挂载/卸载分区 Windows :: 查看分区信息 mountvol /? :: 卸载分区 mountvol D: /D :: 挂载分区 mountvol D: \\?\Volume{e316bd82-2441-11e5-9656-d6d12ffbbef0} 生成随机复杂密码 # 1">
+    <meta property="og:description" content="查看进程环境变量 Linux tr \\0 \\n &lt; /proc/${PID}/environ ps eww -p ${PID} Solaris pargs -e ${PID} Windows PowerShell (Get-Process -id %PID%).StartInfo.EnvironmentVariables 挂载/卸载分区 Windows :: 查看分区信息 mountvol /? :: 卸载分区 mountvol D: /D :: 挂载分区 mountvol D: \\?\Volume{e316bd82-2441-11e5-9656-d6d12ffbbef0} 生成随机复杂密码 # 1">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="Command Note">
+    <meta property="og:url" content="/2015/07/31/command-note/">
+    <meta property="og:site_name" content="Yougg&#39;s Blog">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Yougg&#39;s Blog">
+    <meta name="twitter:description" content="查看进程环境变量 Linux tr \\0 \\n &lt; /proc/${PID}/environ ps eww -p ${PID} Solaris pargs -e ${PID} Windows PowerShell (Get-Process -id %PID%).StartInfo.EnvironmentVariables 挂载/卸载分区 Windows :: 查看分区信息 mountvol /? :: 卸载分区 mountvol D: /D :: 挂载分区 mountvol D: \\?\Volume{e316bd82-2441-11e5-9656-d6d12ffbbef0} 生成随机复杂密码 # 1">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="http://pic.k73.com/up/soft/2016/0919/172704_71255408.png">
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://yougg.github.io/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+      
+        <link rel="stylesheet"  href="https://yougg.github.io/css/fruity.css">
+      
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="5">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://yougg.github.io/">Yougg&#39;s Blog</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://yougg.github.io/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="http://pic.k73.com/up/soft/2016/0919/172704_71255408.png" alt="作者的图片" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="5">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://yougg.github.io/#about">
+          <img class="sidebar-profile-picture" src="http://pic.k73.com/up/soft/2016/0919/172704_71255408.png" alt="作者的图片" />
+        </a>
+        <h4 class="sidebar-profile-name">yougg</h4>
+        
+          <h5 class="sidebar-profile-bio">和咸鱼没有什么区别的偶尔写<del><em>不想写</em></del>博客的码农</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://yougg.github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">首页</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://yougg.github.io/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">分类</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://yougg.github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">标签</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://yougg.github.io/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">归档</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://yougg.github.io/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">关于</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/yougg" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://stackoverflow.com/users/9087310/yougg" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-stack-overflow"></i>
+      
+      <span class="sidebar-button-desc">Stack Overflow</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="5"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      Command Note
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2015-07-31T00:00:00&#43;08:00">
+        
+  
+  
+  
+  
+    2015年7月31日 00时00分00秒
+  
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://yougg.github.io/categories/document">Document</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <ul>
+<li><p>查看进程环境变量</p>
+
+<ul>
+<li><p>Linux</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">tr <span class="se">\\</span><span class="m">0</span> <span class="se">\\</span>n &lt; /proc/<span class="si">${</span><span class="nv">PID</span><span class="si">}</span>/environ
+        
+ps eww -p <span class="si">${</span><span class="nv">PID</span><span class="si">}</span></code></pre></div></li>
+
+<li><p>Solaris</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">pargs -e <span class="si">${</span><span class="nv">PID</span><span class="si">}</span></code></pre></div></li>
+
+<li><p>Windows <code>PowerShell</code></p>
+<div class="highlight"><pre class="chroma"><code class="language-ps" data-lang="ps"><span class="s">(Get-Process -id %PID%)</span><span class="err">.StartInfo.EnvironmentVariables</span></code></pre></div></li>
+</ul></li>
+
+<li><p>挂载/卸载分区</p>
+
+<ul>
+<li><p>Windows</p>
+<div class="highlight"><pre class="chroma"><code class="language-cmd" data-lang="cmd"><span class="p">:</span><span class="c1">: 查看分区信息</span>
+mountvol /?
+<span class="p">:</span><span class="c1">: 卸载分区</span>
+mountvol D<span class="p">:</span> <span class="nl">/D</span>
+<span class="p">:</span><span class="c1">: 挂载分区</span>
+mountvol D<span class="p">:</span> <span class="nl">\\?\Volume{e316bd82-2441-11e5-9656-d6d12ffbbef0}</span></code></pre></div></li>
+</ul></li>
+
+<li><p>生成随机复杂密码</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># 16位密码:
+</span><span class="c1"></span>&lt; /dev/urandom tr -dc <span class="s1">&#39;`~!@#$%^&amp;*()-_=+[]{}\|;:\,./&lt;&gt;?&#34;1-9a-zA-Z&#39;</span> <span class="p">|</span> head -c<span class="si">${</span><span class="nv">1</span><span class="k">:-</span><span class="nv">16</span><span class="si">}</span><span class="p">;</span> echo</code></pre></div></li>
+
+<li><p>查看进程网络连接</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">lsof -i <span class="m">4</span> -a -p <span class="si">${</span><span class="nv">PID</span><span class="si">}</span>
+lsof -i :<span class="si">${</span><span class="nv">Port</span><span class="si">}</span>
+netstat -anp <span class="p">|</span> grep <span class="si">${</span><span class="nv">PID</span><span class="si">}</span></code></pre></div></li>
+
+<li><p>生成数字序列</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">seq -f <span class="s2">&#34;%03.f&#34;</span> <span class="m">9</span> <span class="m">12</span>
+<span class="c1"># 009
+</span><span class="c1"># 010
+</span><span class="c1"># 011
+</span><span class="c1"></span># <span class="m">012</span></code></pre></div></li>
+
+<li><p>Linux强制关机</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">echo</span> <span class="m">1</span> &gt; /proc/sys/kernel/sysrq
+<span class="nb">echo</span> b &gt; /proc/sysrq-trigger</code></pre></div></li>
+
+<li><p>Linux重设登陆失败重试次数</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo pam_tally2 -u root --reset<span class="o">=</span><span class="m">0</span></code></pre></div></li>
+
+<li><p>Linux设置普通用户定时任务</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># 添加username编辑crontab权限
+</span><span class="c1"></span>sudo <span class="nb">echo</span> username &gt;&gt; /etc/cron.allow
+<span class="c1"># 添加定时任务到username用户的任务列表
+</span><span class="c1"></span>sudo crontab -u username -e
+<span class="c1"># 加入定时任务, 例如:
+</span><span class="c1"># * * * * * /path/to/cmd
+</span><span class="c1"></span>
+<span class="c1"># 查看保存在username用户下的任务
+</span><span class="c1"></span>sudo crontab -u username -l
+
+<span class="c1"># 重启定时任务服务加载新的任务运行
+</span><span class="c1"></span>sudo service cron restart
+
+<span class="c1"># 查看定时任务日志
+</span><span class="c1"></span>sudo vi /etc/cron.log</code></pre></div></li>
+
+<li><p>Linux查看网线连接状态</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo ethtool eth0
+sudo mii-tool eth0</code></pre></div></li>
+
+<li><p>SUSE安装git</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">zypper addrepo http://download.opensuse.org/repositories/devel:/tools:/scm/SLE_11_SP3/devel:tools:scm.repo
+zypper install git-core</code></pre></div></li>
+
+<li><p>禁止ssh连接超时</p>
+
+<ul>
+<li><p>客户端修改<code>/etc/ssh/ssh_config</code>或者<code>~/.ssh/config</code></p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ServerAliveInterval <span class="m">100</span></code></pre></div></li>
+
+<li><p>服务端修改<code>/etc/ssh/sshd_config</code></p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ClientAliveInterval <span class="m">30</span>
+TCPKeepAlive yes
+ClientAliveCountMax <span class="m">99999</span></code></pre></div>
+<p>重启ssh服务</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo service ssh restart</code></pre></div></li>
+</ul></li>
+
+<li><p>SSH通过http proxy连接</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ssh username@host_or_IP -o <span class="s2">&#34;ProxyCommand=ncat --proxy </span><span class="si">${</span><span class="nv">IP</span><span class="si">}</span><span class="s2">:</span><span class="si">${</span><span class="nv">Port</span><span class="si">}</span><span class="s2"> %h %p&#34;</span> -i private_key
+ssh username@host_or_IP -o <span class="s2">&#34;ProxyCommand=nc -X connect -x </span><span class="si">${</span><span class="nv">IP</span><span class="si">}</span><span class="s2">:</span><span class="si">${</span><span class="nv">Port</span><span class="si">}</span><span class="s2"> %h %p&#34;</span></code></pre></div></li>
+
+<li><p>重置只读变量</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">readonly</span> <span class="nv">HISTSIZE</span><span class="o">=</span><span class="m">0</span>
+
+cat <span class="s">&lt;&lt; EOF | sudo gdb
+</span><span class="s">attach $$
+</span><span class="s">call unbind_variable(&#34;HISTSIZE&#34;)
+</span><span class="s">detach
+</span><span class="s">EOF</span></code></pre></div></li>
+
+<li><p>编译Webkit版本的LietIDE</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo apt install qt4-qmake libqt4-dev libqtwebkit-dev
+go get github.com/visualfc/gotools
+<span class="nb">cd</span> <span class="si">${</span><span class="nv">SRC</span><span class="si">}</span>/liteide/build/
+chmod +x build_linux_qt4_webkit.sh
+./build_linux_qt4_webkit.sh
+cp -rf liteide ~/</code></pre></div></li>
+
+<li><p>git</p>
+
+<ul>
+<li><p>切换远程仓库路径</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">git remote set-url origin https://github.com/user/FORK.git</code></pre></div></li>
+
+<li><p>添加子模块</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">cd</span> parent_project
+git submodule add https://github.com/username/subproject.git external/src
+git submodule update --init --recursive external/src
+<span class="nb">cd</span> external/src
+git checkout -b develop origin/develop
+<span class="nb">cd</span> ..
+git add .
+git commit -m <span class="s1">&#39;Add submodule&#39;</span>
+git push</code></pre></div></li>
+
+<li><p>同步子模块</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">git submodule update --init --force --recursive</code></pre></div></li>
+
+<li><p>删除子模块</p>
+
+<ol>
+<li><p>Delete the relevant section from the <code>.gitmodules</code> file.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">git config -f .gitmodules --remove-section submodule.src</code></pre></div>
+<p>Stage the <code>.gitmodules</code> changes git add <code>.gitmodules</code></p></li>
+
+<li><p>Delete the relevant section from <code>.git/config</code>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">git config --remove-section submodule.src</code></pre></div></li>
+
+<li><p>Run <code>git rm --cached path_to_submodule</code> (no trailing slash).
+Run <code>rm -rf .git/modules/path_to_submodule</code>
+Commit <code>git commit -m &quot;Removed submodule &lt;name&gt;&quot;</code></p></li>
+
+<li><p>Delete the now untracked submodule files</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">rm -rf path_to_submodule</code></pre></div></li>
+</ol></li>
+
+<li><p>git克隆保存用户/密码</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">git clone http://username:password@github.com/user/project.git</code></pre></div></li>
+
+<li><p>git指定提交时的作者和邮箱</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nv">GIT_AUTHOR_NAME</span><span class="o">=</span><span class="s2">&#34;some one&#34;</span> <span class="nv">GIT_AUTHOR_EMAIL</span><span class="o">=</span><span class="s2">&#34;someone@email.com&#34;</span> <span class="nv">GIT_COMMITTER_NAME</span><span class="o">=</span><span class="s2">&#34;some one&#34;</span> <span class="nv">GIT_COMMITTER_EMAIL</span><span class="o">=</span><span class="s2">&#34;someone@email.com&#34;</span> git commit -m <span class="s1">&#39;message&#39;</span>
+git push -f --set-upstream origin master</code></pre></div></li>
+
+<li><p>配置git diff使用vimdiff</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">git config --global diff.tool vimdiff
+git config --global difftool.prompt <span class="nb">false</span>
+git config --global alias.d difftool</code></pre></div>
+<p>使用方式</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">git difftool
+git d</code></pre></div>
+<p>如果执行报错<code>Can't locate Error.pm in @INC ......</code><br />
+则执行如下方式后再操作</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">cpan Error.pm</code></pre></div>
+<p>或者</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo perl -MCPAN -e <span class="s1">&#39;install Error&#39;</span></code></pre></div></li>
+
+<li><p>一键设置git用户名为域帐户和工号</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nv">gituser</span><span class="o">=</span><span class="s2">&#34;</span><span class="k">$(</span>chcp.com <span class="m">65001</span> <span class="p">&amp;</span>&gt; /dev/null<span class="p">;</span>net user //domain <span class="k">$(</span>id -un<span class="k">)</span> <span class="p">|</span> awk -F <span class="s1">&#39;[ ][(]&#39;</span> <span class="s1">&#39;/Full Name/{print $1}&#39;</span> <span class="p">|</span> awk -F <span class="s1">&#39;Full Name[ ]+&#39;</span> <span class="s1">&#39;{print $2}&#39;</span><span class="k">)</span><span class="s2"> </span><span class="k">$(</span>id -un <span class="p">|</span> cut -c <span class="m">2</span>-<span class="k">)</span><span class="s2">&#34;</span>
+git config --global user.name <span class="si">${</span><span class="nv">gituser</span><span class="si">}</span></code></pre></div></li>
+</ul></li>
+
+<li><p>openssl转换密钥格式pkcs8为pkcs1</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">openssl pkcs8 -in ca0.key -passin pass:xxxx -outform PEM -out ca1.key
+openssl rsa -in ca1.key -out ca2.key -aes256 -passout pass:xxxx</code></pre></div></li>
+
+<li><p>查看终端颜色</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="k">for</span> i in <span class="o">{</span><span class="m">0</span>..8<span class="o">}</span><span class="p">;</span> <span class="k">do</span>
+    <span class="k">for</span> j in <span class="o">{</span><span class="m">0</span>..8<span class="o">}</span><span class="p">;</span> <span class="k">do</span>
+        <span class="nb">echo</span> -en <span class="s2">&#34;\e[3</span><span class="si">${</span><span class="nv">i</span><span class="si">}</span><span class="s2">;4</span><span class="si">${</span><span class="nv">j</span><span class="si">}</span><span class="s2">m3</span><span class="si">${</span><span class="nv">i</span><span class="si">}</span><span class="s2"> 4</span><span class="si">${</span><span class="nv">j</span><span class="si">}</span><span class="s2">\e[0m&#34;</span>
+    <span class="k">done</span>
+    <span class="nb">echo</span>
+<span class="k">done</span></code></pre></div></li>
+
+<li><p>Linux升级/安装openssl编译依赖库</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">cd</span> /usr/local/src/
+tar xzf openssl-1.1.0f.tar.gz
+<span class="nb">cd</span> /usr/local/src/openssl-1.1.0f/
+
+./config --prefix<span class="o">=</span>/usr/local --openssldir<span class="o">=</span>/usr/local/openssl
+make
+make <span class="nb">test</span>
+make install
+
+<span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span>/usr/local/lib64
+<span class="nb">echo</span> <span class="s2">&#34;export LD_LIBRARY_PATH=/usr/local/lib64&#34;</span> &gt; /etc/profile.d/ld_library_path.sh
+chmod a+x /etc/profile.d/ld_library_path.sh
+
+openssl version
+
+<span class="c1">#reboot
+</span><span class="c1"></span>
+sudo apt-get install libssl-dev
+sudo yum install openssl-devel</code></pre></div></li>
+
+<li><p>MingW <code>/etc/profile</code></p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">export</span> <span class="nv">PS1</span><span class="o">=</span><span class="s1">&#39;\e[35;40m[\w]\e[0m\$ &#39;</span>
+    
+<span class="nb">alias</span> <span class="nv">clear</span><span class="o">=</span>clsb
+<span class="nb">alias</span> <span class="nv">reset</span><span class="o">=</span>clsb
+<span class="nb">alias</span> <span class="nv">ls</span><span class="o">=</span><span class="s1">&#39;/bin/ls --color=auto&#39;</span>
+<span class="nb">alias</span> <span class="nv">l</span><span class="o">=</span><span class="s1">&#39;ls -AlF&#39;</span>
+<span class="nb">alias</span> <span class="nv">vi</span><span class="o">=</span>vim</code></pre></div></li>
+
+<li><p>Golang</p>
+
+<ul>
+<li><p>单元测试</p>
+
+<ul>
+<li><p>覆盖率报告</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">go <span class="nb">test</span> -cover -coverprofile<span class="o">=</span>cover.out -covermode<span class="o">=</span>count
+go tool cover -html cover.out -o cover.html</code></pre></div></li>
+
+<li><p>测试包</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># 测试当前包
+</span><span class="c1"></span>go <span class="nb">test</span> .
+<span class="c1"># go test会在GOROOT和GOPATH下查找这个包并执行包的测试
+</span><span class="c1"></span>go <span class="nb">test</span> fmt
+<span class="c1"># 测试整个包
+</span><span class="c1"></span>go <span class="nb">test</span> github.com/yougg/pool/...</code></pre></div></li>
+</ul></li>
+
+<li><p>时间解析</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">t</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">time</span><span class="p">.</span><span class="nx">ParseInLocation</span><span class="p">(</span><span class="s">&#34;2006-01-02 15:04:05.000000000&#34;</span><span class="p">,</span> <span class="s">&#34;2016-01-08 09:10:01.440114278&#34;</span><span class="p">,</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Local</span><span class="p">)</span>
+<span class="nx">t</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Parse</span><span class="p">(</span><span class="s">&#34;2006-01-02 15:04:05.000000000 -0700&#34;</span><span class="p">,</span> <span class="s">&#34;2016-01-08 09:10:01.440114278 +0800&#34;</span><span class="p">)</span>
+<span class="nx">t</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Parse</span><span class="p">(</span><span class="s">&#34;2006-01-02 15:04:05.000000000 Z0700&#34;</span><span class="p">,</span> <span class="s">&#34;2016-01-08 09:10:01.440114278 +0800&#34;</span><span class="p">)</span></code></pre></div></li>
+
+<li><p>静态链接<br />
+引用了<code>net</code>包的程序, 编译时默认会动态链接</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nv">CGO_ENABLED</span><span class="o">=</span><span class="m">0</span> go build -installsuffix cgo yourcode.go
+<span class="c1"># 首先需要静态链接标准库中的net包
+</span><span class="c1"></span>go install -tags netgo -a -v std
+<span class="c1"># 然后再编译自己的程序
+</span><span class="c1"></span><span class="nv">CGO_ENABLED</span><span class="o">=</span><span class="m">0</span> go build yourcode.go</code></pre></div>
+<p>使用<code>gccgo</code>静态编译引用了<code>cgo</code>代码的程序</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># static cgo
+</span><span class="c1"></span>go build --ldflags <span class="s1">&#39;-extldflags &#34;-static&#34;&#39;</span> yourcode.go
+<span class="c1"># gccgo
+</span><span class="c1"></span>go build -compiler gccgo --gccgoflags <span class="s2">&#34;-static&#34;</span> yourcode.go</code></pre></div></li>
+
+<li><p>反射访问私有成员</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+    
+<span class="kn">import</span> <span class="p">(</span>
+    <span class="s">&#34;fmt&#34;</span>
+    <span class="s">&#34;reflect&#34;</span>
+    <span class="s">&#34;unsafe&#34;</span>
+<span class="p">)</span>
+        
+<span class="kd">type</span> <span class="nx">Tab</span> <span class="kd">struct</span> <span class="p">{</span>
+    <span class="nx">A</span> <span class="kt">string</span>
+    <span class="nx">b</span> <span class="kt">int</span>
+    <span class="nx">c</span> <span class="o">*</span><span class="kt">bool</span>
+<span class="p">}</span>
+        
+<span class="kd">func</span> <span class="p">(</span><span class="nx">t</span> <span class="o">*</span><span class="nx">Tab</span><span class="p">)</span> <span class="nx">Name</span><span class="p">(</span><span class="nx">x</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">x</span><span class="o">+</span><span class="s">`{A:&#34;`</span><span class="o">+</span><span class="nx">t</span><span class="p">.</span><span class="nx">A</span><span class="o">+</span><span class="s">`&#34;,b:`</span><span class="o">+</span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Sprintf</span><span class="p">(</span><span class="s">&#34;%d&#34;</span><span class="p">,</span><span class="nx">t</span><span class="p">.</span><span class="nx">b</span><span class="p">)</span><span class="o">+</span><span class="s">`,c:`</span><span class="o">+</span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Sprintf</span><span class="p">(</span><span class="s">&#34;%t&#34;</span><span class="p">,</span><span class="o">*</span><span class="nx">t</span><span class="p">.</span><span class="nx">c</span><span class="p">)</span><span class="o">+</span><span class="s">`}`</span>
+<span class="p">}</span>
+        
+<span class="kd">func</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">t</span> <span class="p">=</span> <span class="o">&amp;</span><span class="nx">Tab</span><span class="p">{</span><span class="nx">c</span><span class="p">:</span><span class="nb">new</span><span class="p">(</span><span class="kt">bool</span><span class="p">)}</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;%#v\n&#34;</span><span class="p">,</span><span class="nx">t</span><span class="p">)</span>
+    <span class="nx">val</span> <span class="o">:=</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">ValueOf</span><span class="p">(</span><span class="nx">t</span><span class="p">)</span>
+    <span class="nx">vv</span> <span class="o">:=</span> <span class="nx">reflect</span><span class="p">.</span><span class="nx">Indirect</span><span class="p">(</span><span class="nx">val</span><span class="p">)</span>
+    <span class="nx">vv</span><span class="p">.</span><span class="nx">FieldByName</span><span class="p">(</span><span class="s">&#34;A&#34;</span><span class="p">).</span><span class="nx">SetString</span><span class="p">(</span><span class="s">&#34;XXXXXX&#34;</span><span class="p">)</span>
+    <span class="c1">// panic: reflect: reflect.Value.SetInt using value obtained using unexported field
+</span><span class="c1"></span>    <span class="c1">// vv.FieldByName(&#34;b&#34;).SetInt(222)
+</span><span class="c1"></span>    <span class="nx">b</span> <span class="o">:=</span> <span class="p">(</span><span class="o">*</span><span class="kt">int</span><span class="p">)(</span><span class="nx">unsafe</span><span class="p">.</span><span class="nx">Pointer</span><span class="p">(</span><span class="nx">vv</span><span class="p">.</span><span class="nx">FieldByName</span><span class="p">(</span><span class="s">&#34;b&#34;</span><span class="p">).</span><span class="nx">Addr</span><span class="p">().</span><span class="nx">Pointer</span><span class="p">()))</span>
+    <span class="o">*</span><span class="nx">b</span> <span class="p">=</span> <span class="mi">33333</span>
+    <span class="c1">// panic: reflect: reflect.Value.SetBool using value obtained using unexported field
+</span><span class="c1"></span>    <span class="c1">// vv.FieldByName(&#34;c&#34;).SetBool(true)
+</span><span class="c1"></span>    <span class="nx">c</span> <span class="o">:=</span> <span class="p">(</span><span class="o">*</span><span class="kt">bool</span><span class="p">)(</span><span class="nx">unsafe</span><span class="p">.</span><span class="nx">Pointer</span><span class="p">(</span><span class="nx">vv</span><span class="p">.</span><span class="nx">FieldByName</span><span class="p">(</span><span class="s">&#34;c&#34;</span><span class="p">).</span><span class="nx">Pointer</span><span class="p">()))</span>
+    <span class="o">*</span><span class="nx">c</span> <span class="p">=</span> <span class="kc">true</span>
+    <span class="nx">res</span> <span class="o">:=</span> <span class="nx">val</span><span class="p">.</span><span class="nx">MethodByName</span><span class="p">(</span><span class="s">&#34;Name&#34;</span><span class="p">).</span><span class="nx">Call</span><span class="p">([]</span><span class="nx">reflect</span><span class="p">.</span><span class="nx">Value</span><span class="p">{</span><span class="nx">reflect</span><span class="p">.</span><span class="nx">ValueOf</span><span class="p">(</span><span class="s">&#34;&amp;main.Tab&#34;</span><span class="p">)})</span>
+    <span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">v</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">res</span> <span class="p">{</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">v</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></div></li>
+</ul></li>
+
+<li><p>MySQL</p>
+
+<ul>
+<li><p>启用用户远程连接权限</p>
+<div class="highlight"><pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">grant</span> <span class="k">all</span> <span class="k">privileges</span> <span class="k">on</span> <span class="o">*</span><span class="p">.</span><span class="o">*</span> <span class="k">to</span> <span class="err">${</span><span class="n">username</span><span class="err">}</span><span class="o">@</span><span class="err">${</span><span class="n">IP</span><span class="err">}</span> <span class="n">identified</span> <span class="k">by</span> <span class="s1">&#39;${pwd}&#39;</span> <span class="k">with</span> <span class="k">grant</span> <span class="k">option</span><span class="p">;</span>
+<span class="n">flush</span> <span class="k">privileges</span><span class="p">;</span></code></pre></div></li>
+
+<li><p>超级权限</p>
+<div class="highlight"><pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">grant</span> <span class="n">super</span> <span class="k">on</span> <span class="o">*</span><span class="p">.</span><span class="o">*</span> <span class="k">to</span> <span class="s1">&#39;my_user&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span><span class="p">;</span>
+<span class="k">revoke</span> <span class="n">super</span> <span class="k">on</span> <span class="o">*</span><span class="p">.</span><span class="o">*</span> <span class="k">from</span> <span class="s1">&#39;my_user&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span><span class="p">;</span></code></pre></div></li>
+
+<li><p>连接数据库</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">mysql -h <span class="si">${</span><span class="nv">IP</span><span class="si">}</span> -P <span class="si">${</span><span class="nv">Port</span><span class="si">}</span> -D <span class="si">${</span><span class="nv">database</span><span class="si">}</span> -u <span class="si">${</span><span class="nv">user</span><span class="si">}</span> -p<span class="si">${</span><span class="nv">pwd</span><span class="si">}</span></code></pre></div></li>
+</ul></li>
+
+<li><p>压缩包加密</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">zip -rP <span class="si">${</span><span class="nv">pwd</span><span class="si">}</span> filename.zip filename
+unzip -P <span class="si">${</span><span class="nv">pwd</span><span class="si">}</span> filename.zip</code></pre></div></li>
+
+<li><p>TC</p>
+
+<ul>
+<li><p>关闭全屏模式</p>
+<div class="highlight"><pre class="chroma"><code class="language-js" data-lang="js"><span class="c1">// Ctrl + Shift + k
+</span><span class="c1"></span><span class="nb">window</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="s1">&#39;about:addons&#39;</span><span class="p">)</span>
+<span class="c1">// 禁用扩展 &#34;R-kisok&#34;
+</span><span class="c1"></span></code></pre></div></li>
+
+<li><p>进入自主维护主机命令行</p>
+
+<ol>
+<li>登陆进入自助维护界面，打开Chrome</li>
+<li>Chrome地址栏输入：<code>file:///C:/temp/</code>回车</li>
+<li>点击一个<code>.csv</code>文件下载</li>
+<li>点击下载完成的csv文件，如果自动从Excel中打开则继续，否则退出重新第一步往下操作，直到看到Excel打开csv文件</li>
+<li>Excel中点击<code>开发工具</code>-&gt;<code>Visual Basic</code>进入VB工程界面</li>
+<li>右键点击VBAProject列表中的<code>ThisWorkbook</code>-&gt;<code>插入</code>-&gt;<code>模块</code></li>
+
+<li><p>在模块编辑中填入下面代码：</p>
+<div class="highlight"><pre class="chroma"><code class="language-vbs" data-lang="vbs">Sub x()
+Shell (&#34;cmd /c start powershell&#34;)
+End Sub</code></pre></div></li>
+
+<li><p>按<code>F5</code>运行代码，等待PowerShell命令窗口弹出即可</p>
+<div class="highlight"><pre class="chroma"><code class="language-cmd" data-lang="cmd">mstsc
+taskmgr
+notepad++</code></pre></div></li>
+</ol></li>
+</ul></li>
+
+<li><p>HTTPS SSL TLS</p>
+
+<blockquote>
+<p><a href="https://ericchiang.github.io/tls/go/https/2015/06/21/go-tls.html">TLS with Go</a><br />
+  <a href="http://luojinping.com/2016/04/17/https%E8%AF%A6%E8%A7%A3/">https详解</a><br />
+  <a href="http://www.wxtlife.com/2016/03/27/%E8%AF%A6%E8%A7%A3https%E6%98%AF%E5%A6%82%E4%BD%95%E7%A1%AE%E4%BF%9D%E5%AE%89%E5%85%A8%E7%9A%84%EF%BC%9F/">详解https是如何确保安全的</a></p>
+</blockquote></li>
+
+<li><p>Textual Encodings of PKIX, PKCS, and CMS Structures<br />
+PEM file format<br />
+<a href="https://tools.ietf.org/html/rfc7468">https://tools.ietf.org/html/rfc7468</a></p>
+
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Label</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>CMS</td>
+<td>&ldquo;CMS&rdquo;</td>
+</tr>
+
+<tr>
+<td>DHPARAMS</td>
+<td>&ldquo;DH PARAMETERS&rdquo;</td>
+</tr>
+
+<tr>
+<td>DSA</td>
+<td>&ldquo;DSA PRIVATE KEY&rdquo;</td>
+</tr>
+
+<tr>
+<td>DSAPARAMS</td>
+<td>&ldquo;DSA PARAMETERS&rdquo;</td>
+</tr>
+
+<tr>
+<td>DSA_PUBLIC</td>
+<td>&ldquo;DSA PUBLIC KEY&rdquo;</td>
+</tr>
+
+<tr>
+<td>ECDSA_PUBLIC</td>
+<td>&ldquo;ECDSA PUBLIC KEY&rdquo;</td>
+</tr>
+
+<tr>
+<td>ECPARAMETERS</td>
+<td>&ldquo;EC PARAMETERS&rdquo;</td>
+</tr>
+
+<tr>
+<td>ECPRIVATEKEY</td>
+<td>&ldquo;EC PRIVATE KEY&rdquo;</td>
+</tr>
+
+<tr>
+<td>EVP_PKEY</td>
+<td>&ldquo;ANY PRIVATE KEY&rdquo;</td>
+</tr>
+
+<tr>
+<td>PARAMETERS</td>
+<td>&ldquo;PARAMETERS&rdquo;</td>
+</tr>
+
+<tr>
+<td>PKCS7</td>
+<td>&ldquo;PKCS7&rdquo;</td>
+</tr>
+
+<tr>
+<td>PKCS7_SIGNED</td>
+<td>&ldquo;PKCS #7 SIGNED DATA&rdquo;</td>
+</tr>
+
+<tr>
+<td>PKCS8</td>
+<td>&ldquo;ENCRYPTED PRIVATE KEY&rdquo;</td>
+</tr>
+
+<tr>
+<td>PKCS8INF</td>
+<td>&ldquo;PRIVATE KEY&rdquo;</td>
+</tr>
+
+<tr>
+<td>PUBLIC</td>
+<td>&ldquo;PUBLIC KEY&rdquo;</td>
+</tr>
+
+<tr>
+<td>RSA</td>
+<td>&ldquo;RSA PRIVATE KEY&rdquo;</td>
+</tr>
+
+<tr>
+<td>RSA_PUBLIC</td>
+<td>&ldquo;RSA PUBLIC KEY&rdquo;</td>
+</tr>
+
+<tr>
+<td>SSL_SESSION</td>
+<td>&ldquo;SSL SESSION PARAMETERS&rdquo;</td>
+</tr>
+
+<tr>
+<td>X509</td>
+<td>&ldquo;CERTIFICATE&rdquo;</td>
+</tr>
+
+<tr>
+<td>X509_CRL</td>
+<td>&ldquo;X509 CRL&rdquo;</td>
+</tr>
+
+<tr>
+<td>X509_OLD</td>
+<td>&ldquo;X509 CERTIFICATE&rdquo;</td>
+</tr>
+
+<tr>
+<td>X509_PAIR</td>
+<td>&ldquo;CERTIFICATE PAIR&rdquo;</td>
+</tr>
+
+<tr>
+<td>X509_REQ</td>
+<td>&ldquo;CERTIFICATE REQUEST&rdquo;</td>
+</tr>
+
+<tr>
+<td>X509_REQ_OLD</td>
+<td>&ldquo;NEW CERTIFICATE REQUEST&rdquo;</td>
+</tr>
+
+<tr>
+<td>X509_TRUSTED</td>
+<td>&ldquo;TRUSTED CERTIFICATE&rdquo;</td>
+</tr>
+</tbody>
+</table></li>
+
+<li><p>GitHub Huawei Organization</p>
+
+<ul>
+<li><a href="https://github.com/huawei-openlab">Huawei Openlab</a></li>
+<li><a href="https://github.com/openhuawei">Huawei Open Source</a></li>
+<li><a href="https://github.com/Huawei-PaaS">Huawei-PaaS</a></li>
+<li><a href="https://github.com/Huawei-OSG">Huawei-OSG</a></li>
+<li><a href="https://github.com/huawei-cloudfederation">huawei-cloudfederation</a></li>
+</ul></li>
+
+<li><p>obsbackup.go</p></li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+	<span class="s">&#34;bufio&#34;</span>
+	<span class="s">&#34;flag&#34;</span>
+	<span class="s">&#34;fmt&#34;</span>
+	<span class="s">&#34;io&#34;</span>
+	<span class="s">&#34;net/http&#34;</span>
+	<span class="s">&#34;os&#34;</span>
+	<span class="s">&#34;os/exec&#34;</span>
+	<span class="s">&#34;path/filepath&#34;</span>
+	<span class="s">&#34;regexp&#34;</span>
+	<span class="s">&#34;sort&#34;</span>
+	<span class="s">&#34;strconv&#34;</span>
+	<span class="s">&#34;strings&#34;</span>
+	<span class="s">&#34;time&#34;</span>
+
+	<span class="s">&#34;github.com/cheggaaa/pb&#34;</span>
+	<span class="s">&#34;github.com/yougg/log4go&#34;</span>
+	<span class="s">&#34;github.com/yougg/obs_native/client&#34;</span>
+	<span class="s">&#34;github.com/yougg/obs_native/models&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">const</span> <span class="p">(</span>
+	<span class="nx">periodDay</span>   <span class="p">=</span> <span class="s">&#34;DAY&#34;</span>
+	<span class="nx">periodWeek</span>  <span class="p">=</span> <span class="s">&#34;WEEK&#34;</span>
+	<span class="nx">periodMonth</span> <span class="p">=</span> <span class="s">&#34;MONTH&#34;</span>
+	<span class="nx">periodYear</span>  <span class="p">=</span> <span class="s">&#34;YEAR&#34;</span>
+	<span class="nx">bucketRule</span>  <span class="p">=</span> <span class="s">&#34;^[a-z0-9][a-z0-9.-]{2,62}&#34;</span>
+	<span class="nx">ipRule</span>      <span class="p">=</span> <span class="s">`(([1-9]?\d|1\d{2}|2[0-4]\d|25[0-5]).){3}([1-9]?\d|1\d{2}|2[0-4]\d|25[0-5])`</span>
+<span class="p">)</span>
+
+<span class="kd">var</span> <span class="p">(</span>
+	<span class="nx">isList</span> <span class="p">=</span> <span class="nx">flag</span><span class="p">.</span><span class="nx">Bool</span><span class="p">(</span><span class="s">&#34;list&#34;</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="s">&#34;List all buckets in OBS server or files in a bucket.&#34;</span><span class="p">)</span>
+	<span class="nx">isBackup</span>   <span class="p">=</span> <span class="nx">flag</span><span class="p">.</span><span class="nx">Bool</span><span class="p">(</span><span class="s">&#34;backup&#34;</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="s">&#34;Packaging files and upload to OBS server.&#34;</span><span class="p">)</span>
+	<span class="nx">isRestore</span>  <span class="p">=</span> <span class="nx">flag</span><span class="p">.</span><span class="nx">Bool</span><span class="p">(</span><span class="s">&#34;restore&#34;</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="s">&#34;Download files from OBS server and unpack.&#34;</span><span class="p">)</span>
+	<span class="nx">isPack</span>     <span class="p">=</span> <span class="nx">flag</span><span class="p">.</span><span class="nx">Bool</span><span class="p">(</span><span class="s">&#34;pack&#34;</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="s">&#34;Packaging files.&#34;</span><span class="p">)</span>
+	<span class="nx">isUpload</span>   <span class="p">=</span> <span class="nx">flag</span><span class="p">.</span><span class="nx">Bool</span><span class="p">(</span><span class="s">&#34;upload&#34;</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="s">&#34;Upload file to OBS server.&#34;</span><span class="p">)</span>
+	<span class="nx">isDownload</span> <span class="p">=</span> <span class="nx">flag</span><span class="p">.</span><span class="nx">Bool</span><span class="p">(</span><span class="s">&#34;download&#34;</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="s">&#34;Download file from OBS server.&#34;</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="kd">var</span> <span class="p">(</span>
+	<span class="nx">bucket</span>  <span class="p">=</span> <span class="nx">flag</span><span class="p">.</span><span class="nx">String</span><span class="p">(</span><span class="s">&#34;bucket&#34;</span><span class="p">,</span> <span class="s">&#34;&#34;</span><span class="p">,</span> <span class="s">&#34;Bucket name in OBS server. ex: log-bak&#34;</span><span class="p">)</span>
+	<span class="nx">config</span>  <span class="p">=</span> <span class="nx">flag</span><span class="p">.</span><span class="nx">String</span><span class="p">(</span><span class="s">&#34;config&#34;</span><span class="p">,</span> <span class="s">&#34;OBS.cfg&#34;</span><span class="p">,</span> <span class="s">&#34;OBS server authentication configure file.&#34;</span><span class="p">)</span>
+	<span class="nx">src</span>     <span class="p">=</span> <span class="nx">flag</span><span class="p">.</span><span class="nx">String</span><span class="p">(</span><span class="s">&#34;src&#34;</span><span class="p">,</span> <span class="s">&#34;&#34;</span><span class="p">,</span> <span class="s">&#34;Source file(s)/directory for backup/restore/pack/upload/download.&#34;</span><span class="p">)</span>
+	<span class="nx">logfile</span> <span class="p">=</span> <span class="nx">flag</span><span class="p">.</span><span class="nx">String</span><span class="p">(</span><span class="s">&#34;log&#34;</span><span class="p">,</span> <span class="s">&#34;/var/log/bigdata/backup/backup.log&#34;</span><span class="p">,</span> <span class="s">&#34;log file path.&#34;</span><span class="p">)</span>
+	<span class="nx">period</span>  <span class="p">=</span> <span class="nx">flag</span><span class="p">.</span><span class="nx">String</span><span class="p">(</span><span class="s">&#34;period&#34;</span><span class="p">,</span> <span class="s">&#34;&#34;</span><span class="p">,</span> <span class="s">&#34;backup period&#34;</span><span class="p">)</span>
+	<span class="nx">showpg</span>  <span class="p">=</span> <span class="nx">flag</span><span class="p">.</span><span class="nx">String</span><span class="p">(</span><span class="s">&#34;showprogress&#34;</span><span class="p">,</span> <span class="s">&#34;&#34;</span><span class="p">,</span> <span class="s">&#34;Show upload/download progress.&#34;</span><span class="p">)</span>
+	<span class="nx">maxnum</span>  <span class="p">=</span> <span class="nx">flag</span><span class="p">.</span><span class="nx">Int</span><span class="p">(</span><span class="s">&#34;maxnum&#34;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#34;Maximum number of backup copies.&#34;</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="kd">var</span> <span class="p">(</span>
+	<span class="nx">obs</span>     <span class="o">*</span><span class="nx">client</span><span class="p">.</span><span class="nx">Client</span>
+	<span class="nx">log</span>     <span class="p">=</span> <span class="nb">make</span><span class="p">(</span><span class="nx">log4go</span><span class="p">.</span><span class="nx">Logger</span><span class="p">)</span>
+	<span class="nx">today</span>   <span class="p">=</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Now</span><span class="p">().</span><span class="nx">Format</span><span class="p">(</span><span class="s">&#34;20060102&#34;</span><span class="p">)</span>
+	<span class="nx">tmpdir</span>  <span class="p">=</span> <span class="nx">filepath</span><span class="p">.</span><span class="nx">Join</span><span class="p">(</span><span class="s">&#34;/var/tmp/bigdata/backup&#34;</span><span class="p">,</span> <span class="nx">today</span><span class="p">)</span>
+	<span class="nx">configs</span> <span class="p">=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">string</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="kd">var</span> <span class="p">(</span>
+	<span class="nx">bigdatareg</span> <span class="p">=</span> <span class="nx">regexp</span><span class="p">.</span><span class="nx">MustCompile</span><span class="p">(</span><span class="s">`/opt/huawei/(service-(alarm|auscultate|manager|billing)|paas-srvbroker)`</span><span class="p">)</span>
+	<span class="nx">pkgnamereg</span> <span class="p">=</span> <span class="nx">regexp</span><span class="p">.</span><span class="nx">MustCompile</span><span class="p">(</span><span class="s">`\w*_[0-9]{8}.tar.gz`</span><span class="p">)</span>
+	<span class="nx">pkgtailreg</span> <span class="p">=</span> <span class="nx">regexp</span><span class="p">.</span><span class="nx">MustCompile</span><span class="p">(</span><span class="s">`_[0-9]{8}.tar.gz`</span><span class="p">)</span>
+	<span class="nx">bucketreg</span>  <span class="p">=</span> <span class="nx">regexp</span><span class="p">.</span><span class="nx">MustCompile</span><span class="p">(</span><span class="nx">bucketRule</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="kd">var</span> <span class="nx">runfunc</span> <span class="p">=</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kd">func</span><span class="p">(){</span>
+	<span class="s">&#34;list&#34;</span><span class="p">:</span> <span class="nx">list</span><span class="p">,</span>
+	<span class="s">&#34;backup&#34;</span><span class="p">:</span>   <span class="nx">backup</span><span class="p">,</span>
+	<span class="s">&#34;restore&#34;</span><span class="p">:</span>  <span class="nx">restore</span><span class="p">,</span>
+	<span class="s">&#34;pack&#34;</span><span class="p">:</span>     <span class="nx">packaging</span><span class="p">,</span>
+	<span class="s">&#34;upload&#34;</span><span class="p">:</span>   <span class="nx">upload</span><span class="p">,</span>
+	<span class="s">&#34;download&#34;</span><span class="p">:</span> <span class="nx">download</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nx">init</span><span class="p">()</span> <span class="p">{</span>
+	<span class="nx">flag</span><span class="p">.</span><span class="nx">BoolVar</span><span class="p">(</span><span class="nx">isList</span><span class="p">,</span> <span class="s">&#34;l&#34;</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="s">&#34;&#34;</span><span class="p">)</span>
+	<span class="nx">flag</span><span class="p">.</span><span class="nx">BoolVar</span><span class="p">(</span><span class="nx">isBackup</span><span class="p">,</span> <span class="s">&#34;b&#34;</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="s">&#34;&#34;</span><span class="p">)</span>
+	<span class="nx">flag</span><span class="p">.</span><span class="nx">BoolVar</span><span class="p">(</span><span class="nx">isRestore</span><span class="p">,</span> <span class="s">&#34;r&#34;</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="s">&#34;&#34;</span><span class="p">)</span>
+	<span class="nx">flag</span><span class="p">.</span><span class="nx">BoolVar</span><span class="p">(</span><span class="nx">isPack</span><span class="p">,</span> <span class="s">&#34;p&#34;</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="s">&#34;&#34;</span><span class="p">)</span>
+	<span class="nx">flag</span><span class="p">.</span><span class="nx">BoolVar</span><span class="p">(</span><span class="nx">isUpload</span><span class="p">,</span> <span class="s">&#34;u&#34;</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="s">&#34;&#34;</span><span class="p">)</span>
+	<span class="nx">flag</span><span class="p">.</span><span class="nx">BoolVar</span><span class="p">(</span><span class="nx">isDownload</span><span class="p">,</span> <span class="s">&#34;d&#34;</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="s">&#34;&#34;</span><span class="p">)</span>
+	<span class="nx">flag</span><span class="p">.</span><span class="nx">StringVar</span><span class="p">(</span><span class="nx">showpg</span><span class="p">,</span> <span class="s">&#34;showpg&#34;</span><span class="p">,</span> <span class="s">&#34;&#34;</span><span class="p">,</span> <span class="s">&#34;&#34;</span><span class="p">)</span>
+	<span class="nx">this</span> <span class="o">:=</span> <span class="nx">filepath</span><span class="p">.</span><span class="nx">Base</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+	<span class="c1">// -c, -cron     : Set cron job
+</span><span class="c1"></span>	<span class="nx">flag</span><span class="p">.</span><span class="nx">Usage</span> <span class="p">=</span> <span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
+		<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">`Usage of %s:
+</span><span class="s">    -h, -help     : Show usage of the program.
+</span><span class="s">    -l, -list     : List all buckets in OBS server or files in a bucket.
+</span><span class="s">    -b, -backup   : Packaging files and upload to OBS server, set [action] to &#34;backup&#34;.
+</span><span class="s">    -r, -restore  : Download files from OBS server and unpack, set [action] to &#34;restore&#34;.
+</span><span class="s">    -p, -pack     : Packaging files, set [action] to &#34;pack&#34;.
+</span><span class="s">    -u, -upload   : Upload file to OBS server, set [action] to &#34;upload&#34;.
+</span><span class="s">    -d, -download : Download file from OBS server, set [action] to &#34;download&#34;.
+</span><span class="s">    -bucket=&#34;&#34;    : Bucket name in OBS server. ex: bigdata-db-bak, bigdata-version-bak
+</span><span class="s">    -src=&#34;&#34;       : Source file(s)/directory for backup/restore/pack/upload/download.
+</span><span class="s">    -maxnum=0     : Maximum number of backup copies.
+</span><span class="s">    -period=&#34;DAY&#34; : Backup period: DAY, WEEK, MONTH, YEAR
+</span><span class="s">    -log=&#34;&#34;       : log file path, default: /var/log/bigdata/backup/backup.log
+</span><span class="s">    -showpg=&#34;&#34;    : Show upload/download progress bar: true, false
+</span><span class="s">    -config=&#34;&#34;    : Configure file for execute options, by default read OBS.cfg in current directory.
+</span><span class="s">                    example: (cat backup.cfg)
+</span><span class="s">                        action=backup
+</span><span class="s">                        period=DAY
+</span><span class="s">                        bucket=bigdata-version-bak
+</span><span class="s">                        # When backup/upload the [source] point to local path
+</span><span class="s">                        source=/opt/huawei/service-manager
+</span><span class="s">                        # When restore/download [source] point to the file path in OBS server.
+</span><span class="s">                        # source=paas-srvbroker/WEEK/paas-srvbroker_20150710.tar.gz
+</span><span class="s">                        maxnum=7
+</span><span class="s">                        # Close progress bar when run in cron job or daemon process.
+</span><span class="s">                        showprogress=false
+</span><span class="s">                        # The following OBS options can only set in configure file.
+</span><span class="s">                        AK=XPY2Z53C9DS1E8PFRCE5
+</span><span class="s">                        SK=rCSacNGpradgIAuFVB8gUynL9lDImbEam8r6SFZ4
+</span><span class="s">                        endpoint=https://10.23.45.67:443`</span><span class="p">,</span> <span class="nx">this</span><span class="p">)</span>
+		<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;\n\n&#34;</span><span class="o">+</span><span class="s">`Example:
+</span><span class="s">    %s -config OBS.cfg -l
+</span><span class="s">    %s -config OBS.cfg -list -bucket bigdata-version-bak
+</span><span class="s">    %s -config backup.cfg
+</span><span class="s">    %s -config download.cfg
+</span><span class="s">    %s -pack -src /opt/huawei/service-manager
+</span><span class="s">    %s -download -config download.cfg -src paas-srvbroker/WEEK/paas-srvbroker_20150710.tar.gz
+</span><span class="s">    %s -u -config upload.cfg -src /opt/huawei/service-manager_20150717.tar.gz
+</span><span class="s">		`</span><span class="o">+</span><span class="s">&#34;\n&#34;</span><span class="p">,</span> <span class="nx">this</span><span class="p">,</span> <span class="nx">this</span><span class="p">,</span> <span class="nx">this</span><span class="p">,</span> <span class="nx">this</span><span class="p">,</span> <span class="nx">this</span><span class="p">,</span> <span class="nx">this</span><span class="p">,</span> <span class="nx">this</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="nx">flag</span><span class="p">.</span><span class="nx">Parse</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="c1">// 读取配置文件加载所有参数
+</span><span class="c1"></span><span class="kd">func</span> <span class="nx">initConfig</span><span class="p">()</span> <span class="p">{</span>
+	<span class="nx">cfgfile</span> <span class="o">:=</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">TrimSpace</span><span class="p">(</span><span class="o">*</span><span class="nx">config</span><span class="p">)</span>
+	<span class="k">if</span> <span class="s">``</span> <span class="o">!=</span> <span class="nx">cfgfile</span> <span class="p">{</span>
+		<span class="nx">f</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Open</span><span class="p">(</span><span class="nx">cfgfile</span><span class="p">)</span>
+		<span class="k">if</span> <span class="kc">nil</span> <span class="o">==</span> <span class="nx">err</span> <span class="p">{</span>
+			<span class="nx">r</span> <span class="o">:=</span> <span class="nx">bufio</span><span class="p">.</span><span class="nx">NewReader</span><span class="p">(</span><span class="nx">f</span><span class="p">)</span>
+			<span class="k">for</span> <span class="p">{</span>
+				<span class="nx">line</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">r</span><span class="p">.</span><span class="nx">ReadString</span><span class="p">(</span><span class="sc">&#39;\n&#39;</span><span class="p">)</span>
+				<span class="k">if</span> <span class="nx">err</span> <span class="o">==</span> <span class="nx">io</span><span class="p">.</span><span class="nx">EOF</span> <span class="p">{</span>
+					<span class="k">break</span>
+				<span class="p">}</span>
+				<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+					<span class="k">continue</span>
+				<span class="p">}</span>
+				<span class="nx">line</span> <span class="p">=</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">TrimSpace</span><span class="p">(</span><span class="nx">line</span><span class="p">)</span>
+				<span class="k">if</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">HasPrefix</span><span class="p">(</span><span class="nx">line</span><span class="p">,</span> <span class="s">&#34;#&#34;</span><span class="p">)</span> <span class="p">{</span>
+					<span class="k">continue</span>
+				<span class="p">}</span>
+				<span class="nx">kv</span> <span class="o">:=</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">Split</span><span class="p">(</span><span class="nx">line</span><span class="p">,</span> <span class="s">&#34;=&#34;</span><span class="p">)</span>
+				<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nx">kv</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="p">{</span>
+					<span class="nx">k</span> <span class="o">:=</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">TrimSpace</span><span class="p">(</span><span class="nx">kv</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+					<span class="nx">v</span> <span class="o">:=</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">TrimSpace</span><span class="p">(</span><span class="nx">kv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+					<span class="nx">configs</span><span class="p">[</span><span class="nx">k</span><span class="p">]</span> <span class="p">=</span> <span class="nx">v</span>
+				<span class="p">}</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nx">checkArgsValid</span><span class="p">()</span> <span class="p">{</span>
+	<span class="k">if</span> <span class="nx">flag</span><span class="p">.</span><span class="nx">NFlag</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
+		<span class="nx">flag</span><span class="p">.</span><span class="nx">Usage</span><span class="p">()</span>
+		<span class="nx">waitAndExit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="kd">var</span> <span class="nx">i</span> <span class="kt">int</span>
+	<span class="k">if</span> <span class="o">*</span><span class="nx">isList</span> <span class="p">{</span>
+		<span class="nx">i</span><span class="o">++</span>
+		<span class="nx">configs</span><span class="p">[</span><span class="s">&#34;action&#34;</span><span class="p">]</span> <span class="p">=</span> <span class="s">&#34;list&#34;</span>
+	<span class="p">}</span>
+	<span class="k">if</span> <span class="o">*</span><span class="nx">isBackup</span> <span class="p">{</span>
+		<span class="nx">i</span><span class="o">++</span>
+		<span class="nx">configs</span><span class="p">[</span><span class="s">&#34;action&#34;</span><span class="p">]</span> <span class="p">=</span> <span class="s">&#34;backup&#34;</span>
+	<span class="p">}</span>
+	<span class="k">if</span> <span class="o">*</span><span class="nx">isRestore</span> <span class="p">{</span>
+		<span class="nx">i</span><span class="o">++</span>
+		<span class="nx">configs</span><span class="p">[</span><span class="s">&#34;action&#34;</span><span class="p">]</span> <span class="p">=</span> <span class="s">&#34;restore&#34;</span>
+	<span class="p">}</span>
+	<span class="k">if</span> <span class="o">*</span><span class="nx">isPack</span> <span class="p">{</span>
+		<span class="nx">i</span><span class="o">++</span>
+		<span class="nx">configs</span><span class="p">[</span><span class="s">&#34;action&#34;</span><span class="p">]</span> <span class="p">=</span> <span class="s">&#34;pack&#34;</span>
+	<span class="p">}</span>
+	<span class="k">if</span> <span class="o">*</span><span class="nx">isUpload</span> <span class="p">{</span>
+		<span class="nx">i</span><span class="o">++</span>
+		<span class="nx">configs</span><span class="p">[</span><span class="s">&#34;action&#34;</span><span class="p">]</span> <span class="p">=</span> <span class="s">&#34;upload&#34;</span>
+	<span class="p">}</span>
+	<span class="k">if</span> <span class="o">*</span><span class="nx">isDownload</span> <span class="p">{</span>
+		<span class="nx">i</span><span class="o">++</span>
+		<span class="nx">configs</span><span class="p">[</span><span class="s">&#34;action&#34;</span><span class="p">]</span> <span class="p">=</span> <span class="s">&#34;download&#34;</span>
+	<span class="p">}</span>
+	<span class="k">if</span> <span class="nx">i</span> <span class="p">&gt;</span> <span class="mi">1</span> <span class="p">{</span>
+		<span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&#34;Please set only one option of [-backup,-restore,-pack,-upload,-download] for program.&#34;</span><span class="p">)</span>
+		<span class="nx">flag</span><span class="p">.</span><span class="nx">Usage</span><span class="p">()</span>
+		<span class="nx">waitAndExit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="nx">configs</span><span class="p">[</span><span class="s">&#34;action&#34;</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#34;pack&#34;</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="s">&#34;&#34;</span> <span class="o">==</span> <span class="o">*</span><span class="nx">config</span> <span class="p">{</span>
+			<span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&#34;Must set option [-config] for configure file .&#34;</span><span class="p">)</span>
+			<span class="nx">flag</span><span class="p">.</span><span class="nx">Usage</span><span class="p">()</span>
+			<span class="nx">waitAndExit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+		<span class="p">}</span>
+
+		<span class="k">if</span> <span class="s">``</span> <span class="o">!=</span> <span class="o">*</span><span class="nx">bucket</span> <span class="p">{</span>
+			<span class="nx">configs</span><span class="p">[</span><span class="s">&#34;bucket&#34;</span><span class="p">]</span> <span class="p">=</span> <span class="o">*</span><span class="nx">bucket</span>
+		<span class="p">}</span>
+
+		<span class="k">if</span> <span class="s">``</span> <span class="o">==</span> <span class="nx">configs</span><span class="p">[</span><span class="s">&#34;bucket&#34;</span><span class="p">]</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="nx">configs</span><span class="p">[</span><span class="s">&#34;action&#34;</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#34;list&#34;</span> <span class="p">{</span>
+				<span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&#34;Bucket name can not be empty.&#34;</span><span class="p">)</span>
+				<span class="nx">waitAndExit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+			<span class="p">}</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+			<span class="c1">// 桶名规则: 只能以小写字母或数字开始,长度3~63,只能包含小写字母(a-z),数字(0-9),点(.),减号(-)
+</span><span class="c1"></span>			<span class="k">if</span> <span class="p">!</span><span class="nx">bucketreg</span><span class="p">.</span><span class="nx">MatchString</span><span class="p">(</span><span class="nx">configs</span><span class="p">[</span><span class="s">&#34;bucket&#34;</span><span class="p">])</span> <span class="p">{</span>
+				<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;Bucket name %s is invalid.\n&#34;</span><span class="p">,</span> <span class="nx">configs</span><span class="p">[</span><span class="s">&#34;bucket&#34;</span><span class="p">])</span>
+				<span class="nx">waitAndExit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+
+		<span class="k">if</span> <span class="s">``</span> <span class="o">!=</span> <span class="o">*</span><span class="nx">period</span> <span class="p">{</span>
+			<span class="nx">configs</span><span class="p">[</span><span class="s">&#34;period&#34;</span><span class="p">]</span> <span class="p">=</span> <span class="o">*</span><span class="nx">period</span>
+		<span class="p">}</span>
+
+		<span class="k">switch</span> <span class="o">*</span><span class="nx">showpg</span> <span class="p">{</span>
+		<span class="k">case</span> <span class="s">&#34;true&#34;</span><span class="p">,</span> <span class="s">&#34;TRUE&#34;</span><span class="p">:</span>
+			<span class="nx">configs</span><span class="p">[</span><span class="s">&#34;showprogress&#34;</span><span class="p">]</span> <span class="p">=</span> <span class="s">&#34;true&#34;</span>
+		<span class="k">case</span> <span class="s">&#34;false&#34;</span><span class="p">,</span> <span class="s">&#34;FALSE&#34;</span><span class="p">:</span>
+			<span class="nx">configs</span><span class="p">[</span><span class="s">&#34;showprogress&#34;</span><span class="p">]</span> <span class="p">=</span> <span class="s">&#34;false&#34;</span>
+		<span class="k">default</span><span class="p">:</span>
+			<span class="k">if</span> <span class="s">``</span> <span class="o">!=</span> <span class="o">*</span><span class="nx">showpg</span> <span class="p">{</span>
+				<span class="nx">configs</span><span class="p">[</span><span class="s">&#34;showprogress&#34;</span><span class="p">]</span> <span class="p">=</span> <span class="s">&#34;false&#34;</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+
+		<span class="nx">initObsAuth</span><span class="p">()</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="nx">configs</span><span class="p">[</span><span class="s">&#34;action&#34;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#34;backup&#34;</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="o">*</span><span class="nx">maxnum</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="p">{</span>
+			<span class="nx">configs</span><span class="p">[</span><span class="s">&#34;maxnum&#34;</span><span class="p">]</span> <span class="p">=</span> <span class="nx">strconv</span><span class="p">.</span><span class="nx">Itoa</span><span class="p">(</span><span class="o">*</span><span class="nx">maxnum</span><span class="p">)</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="nx">configs</span><span class="p">[</span><span class="s">&#34;action&#34;</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#34;list&#34;</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="s">``</span> <span class="o">!=</span> <span class="o">*</span><span class="nx">src</span> <span class="p">{</span>
+			<span class="nx">configs</span><span class="p">[</span><span class="s">&#34;source&#34;</span><span class="p">]</span> <span class="p">=</span> <span class="o">*</span><span class="nx">src</span>
+		<span class="p">}</span>
+
+		<span class="nx">srcfile</span> <span class="o">:=</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">TrimSpace</span><span class="p">(</span><span class="nx">configs</span><span class="p">[</span><span class="s">&#34;source&#34;</span><span class="p">])</span>
+		<span class="k">if</span> <span class="s">``</span> <span class="o">==</span> <span class="nx">srcfile</span> <span class="p">{</span>
+			<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;Source file path [%s] can not be empty.\n&#34;</span><span class="p">,</span> <span class="nx">srcfile</span><span class="p">)</span>
+			<span class="nx">waitAndExit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+		<span class="p">}</span>
+
+		<span class="k">switch</span> <span class="nx">configs</span><span class="p">[</span><span class="s">&#34;action&#34;</span><span class="p">]</span> <span class="p">{</span>
+		<span class="k">case</span> <span class="s">&#34;backup&#34;</span><span class="p">,</span> <span class="s">&#34;upload&#34;</span><span class="p">:</span>
+			<span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Stat</span><span class="p">(</span><span class="nx">srcfile</span><span class="p">)</span>
+			<span class="k">if</span> <span class="kc">nil</span> <span class="o">!=</span> <span class="nx">err</span> <span class="p">{</span>
+				<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;Source file path [%s] error, check the file exist and permission to access.\n&#34;</span><span class="p">,</span> <span class="nx">srcfile</span><span class="p">)</span>
+				<span class="nx">waitAndExit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+			<span class="p">}</span>
+
+			<span class="k">switch</span> <span class="nx">configs</span><span class="p">[</span><span class="s">&#34;period&#34;</span><span class="p">]</span> <span class="p">{</span>
+			<span class="k">case</span> <span class="nx">periodDay</span><span class="p">,</span> <span class="nx">periodWeek</span><span class="p">,</span> <span class="nx">periodMonth</span><span class="p">,</span> <span class="nx">periodYear</span><span class="p">:</span>
+			<span class="k">default</span><span class="p">:</span>
+				<span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&#34;The period must be one of [DAY,WEEK,MONTH,YEAR]&#34;</span><span class="p">)</span>
+				<span class="nx">flag</span><span class="p">.</span><span class="nx">Usage</span><span class="p">()</span>
+				<span class="nx">waitAndExit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="s">``</span> <span class="o">!=</span> <span class="o">*</span><span class="nx">logfile</span> <span class="p">{</span>
+		<span class="nx">configs</span><span class="p">[</span><span class="s">&#34;log&#34;</span><span class="p">]</span> <span class="p">=</span> <span class="o">*</span><span class="nx">logfile</span>
+	<span class="p">}</span>
+
+	<span class="nx">logpath</span> <span class="o">:=</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">TrimSpace</span><span class="p">(</span><span class="nx">configs</span><span class="p">[</span><span class="s">&#34;log&#34;</span><span class="p">])</span>
+	<span class="k">if</span> <span class="s">``</span> <span class="o">==</span> <span class="nx">logpath</span> <span class="p">{</span>
+		<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;Log file path [%s] can not be empty.\n&#34;</span><span class="p">,</span> <span class="nx">logpath</span><span class="p">)</span>
+		<span class="nx">waitAndExit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Stat</span><span class="p">(</span><span class="nx">logpath</span><span class="p">)</span>
+	<span class="k">if</span> <span class="kc">nil</span> <span class="o">!=</span> <span class="nx">err</span> <span class="o">&amp;&amp;</span> <span class="p">!</span><span class="nx">os</span><span class="p">.</span><span class="nx">IsNotExist</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;Log file path [%s] error.\n&#34;</span><span class="p">,</span> <span class="nx">logpath</span><span class="p">)</span>
+		<span class="nx">waitAndExit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// 读取OBS服务器地址,AK,SK 初始化OBS客户端
+</span><span class="c1"></span><span class="kd">func</span> <span class="nx">initObsAuth</span><span class="p">()</span> <span class="p">{</span>
+	<span class="nx">AK</span> <span class="o">:=</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">TrimSpace</span><span class="p">(</span><span class="nx">configs</span><span class="p">[</span><span class="s">&#34;AK&#34;</span><span class="p">])</span>
+	<span class="nx">SK</span> <span class="o">:=</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">TrimSpace</span><span class="p">(</span><span class="nx">configs</span><span class="p">[</span><span class="s">&#34;SK&#34;</span><span class="p">])</span>
+	<span class="nx">endpoint</span> <span class="o">:=</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">TrimSpace</span><span class="p">(</span><span class="nx">configs</span><span class="p">[</span><span class="s">&#34;endpoint&#34;</span><span class="p">])</span>
+
+	<span class="k">if</span> <span class="s">``</span> <span class="o">==</span> <span class="nx">AK</span> <span class="o">||</span> <span class="s">``</span> <span class="o">==</span> <span class="nx">SK</span> <span class="o">||</span> <span class="s">``</span> <span class="o">==</span> <span class="nx">endpoint</span> <span class="p">{</span>
+		<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;The OBS server configuration can not be empty.\n&#34;</span><span class="o">+</span>
+			<span class="s">&#34;Please check if %s exist and AK/SK/endpoint were setted.\n&#34;</span><span class="p">,</span> <span class="o">*</span><span class="nx">config</span><span class="p">)</span>
+		<span class="nx">waitAndExit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="nx">obs</span> <span class="p">=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">Factory</span><span class="p">(</span><span class="nx">AK</span><span class="p">,</span> <span class="nx">SK</span><span class="p">,</span> <span class="nx">endpoint</span><span class="p">,</span> <span class="kc">true</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// 初始化日志记录
+</span><span class="c1"></span><span class="kd">func</span> <span class="nx">initLog</span><span class="p">()</span> <span class="p">{</span>
+	<span class="nx">logdir</span> <span class="o">:=</span> <span class="nx">filepath</span><span class="p">.</span><span class="nx">Dir</span><span class="p">(</span><span class="nx">configs</span><span class="p">[</span><span class="s">&#34;log&#34;</span><span class="p">])</span>
+	<span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">MkdirAll</span><span class="p">(</span><span class="nx">logdir</span><span class="p">,</span> <span class="nx">os</span><span class="p">.</span><span class="nx">ModePerm</span><span class="p">)</span>
+	<span class="k">if</span> <span class="kc">nil</span> <span class="o">!=</span> <span class="nx">err</span> <span class="p">{</span>
+		<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;Create log dir [%s] failed.\n&#34;</span><span class="p">,</span> <span class="nx">logdir</span><span class="p">)</span>
+		<span class="nx">waitAndExit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="nx">logWriter</span> <span class="o">:=</span> <span class="nx">log4go</span><span class="p">.</span><span class="nx">NewFileLogWriter</span><span class="p">(</span><span class="nx">configs</span><span class="p">[</span><span class="s">&#34;log&#34;</span><span class="p">],</span> <span class="kc">true</span><span class="p">)</span>
+	<span class="nx">log</span><span class="p">.</span><span class="nx">AddFilter</span><span class="p">(</span><span class="s">&#34;file&#34;</span><span class="p">,</span> <span class="nx">log4go</span><span class="p">.</span><span class="nx">FINEST</span><span class="p">,</span> <span class="nx">logWriter</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// 初始化临时目录
+</span><span class="c1"></span><span class="kd">func</span> <span class="nx">initTmp</span><span class="p">()</span> <span class="p">{</span>
+	<span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">MkdirAll</span><span class="p">(</span><span class="nx">tmpdir</span><span class="p">,</span> <span class="nx">os</span><span class="p">.</span><span class="nx">ModePerm</span><span class="p">)</span>
+	<span class="k">if</span> <span class="kc">nil</span> <span class="o">!=</span> <span class="nx">err</span> <span class="p">{</span>
+		<span class="nx">log</span><span class="p">.</span><span class="nx">Error</span><span class="p">(</span><span class="s">&#34;Create temp dir &#34;</span><span class="p">,</span> <span class="nx">tmpdir</span><span class="p">,</span> <span class="s">&#34; failed.&#34;</span><span class="p">)</span>
+		<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;Create temp dir [%s] failed.\n&#34;</span><span class="p">,</span> <span class="nx">tmpdir</span><span class="p">)</span>
+		<span class="nx">waitAndExit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="nx">initConfig</span><span class="p">()</span>
+	<span class="nx">checkArgsValid</span><span class="p">()</span>
+
+	<span class="nx">initLog</span><span class="p">()</span>
+	<span class="nx">initTmp</span><span class="p">()</span>
+
+	<span class="nx">runfunc</span><span class="p">[</span><span class="nx">configs</span><span class="p">[</span><span class="s">&#34;action&#34;</span><span class="p">]]()</span>
+	<span class="nx">waitAndExit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nx">list</span><span class="p">()</span> <span class="p">{</span>
+	<span class="nx">bucket</span> <span class="o">:=</span> <span class="nx">configs</span><span class="p">[</span><span class="s">&#34;bucket&#34;</span><span class="p">]</span>
+	<span class="k">if</span> <span class="s">``</span> <span class="o">==</span> <span class="nx">bucket</span> <span class="p">{</span>
+		<span class="nx">bs</span> <span class="o">:=</span> <span class="nx">listBuckets</span><span class="p">()</span>
+		<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nx">bs</span><span class="p">)</span> <span class="p">&gt;</span> <span class="mi">0</span> <span class="p">{</span>
+			<span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&#34;Buckets:&#34;</span><span class="p">)</span>
+			<span class="k">for</span> <span class="nx">b</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">bs</span> <span class="p">{</span>
+				<span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&#34;   &#34;</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span>
+			<span class="p">}</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+			<span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&#34;There is no bucket in OBS server.&#34;</span><span class="p">)</span>
+		<span class="p">}</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+		<span class="kd">var</span> <span class="nx">input</span> <span class="p">=</span> <span class="o">&amp;</span><span class="nx">models</span><span class="p">.</span><span class="nx">ListObjectsInput</span><span class="p">{</span>
+			<span class="nx">Bucket</span><span class="p">:</span> <span class="nx">bucket</span><span class="p">,</span>
+		<span class="p">}</span>
+		<span class="nx">result</span><span class="p">,</span> <span class="nx">output</span> <span class="o">:=</span> <span class="nx">obs</span><span class="p">.</span><span class="nx">ListAllObjects</span><span class="p">(</span><span class="nx">input</span><span class="p">)</span>
+		<span class="k">if</span> <span class="kc">nil</span> <span class="o">!=</span> <span class="nx">result</span><span class="p">.</span><span class="nx">Err</span> <span class="o">||</span> <span class="nx">result</span><span class="p">.</span><span class="nx">StatusCode</span> <span class="o">&gt;=</span> <span class="nx">http</span><span class="p">.</span><span class="nx">StatusMultipleChoices</span> <span class="p">{</span>
+			<span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&#34;List objects in OBS server failed.&#34;</span><span class="p">)</span>
+			<span class="nx">waitAndExit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+		<span class="p">}</span>
+		<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;Files in bucket [%s]:\n&#34;</span><span class="p">,</span> <span class="nx">bucket</span><span class="p">)</span>
+		<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nx">output</span><span class="p">.</span><span class="nx">Contents</span><span class="p">)</span> <span class="p">&gt;</span> <span class="mi">0</span> <span class="p">{</span>
+			<span class="nx">keys</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">string</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">output</span><span class="p">.</span><span class="nx">Contents</span><span class="p">))</span>
+			<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">content</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">output</span><span class="p">.</span><span class="nx">Contents</span> <span class="p">{</span>
+				<span class="c1">// TODO add file size and modify time
+</span><span class="c1"></span>				<span class="c1">// content.Size
+</span><span class="c1"></span>				<span class="c1">// content.LastModified
+</span><span class="c1"></span>				<span class="nx">keys</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">keys</span><span class="p">,</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">TrimPrefix</span><span class="p">(</span><span class="nx">content</span><span class="p">.</span><span class="nx">Key</span><span class="p">,</span> <span class="s">&#34;Key: &#34;</span><span class="p">))</span>
+			<span class="p">}</span>
+			<span class="nx">sort</span><span class="p">.</span><span class="nx">Strings</span><span class="p">(</span><span class="nx">keys</span><span class="p">)</span>
+			<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">k</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">keys</span> <span class="p">{</span>
+				<span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&#34;   &#34;</span><span class="p">,</span> <span class="nx">k</span><span class="p">)</span>
+			<span class="p">}</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+			<span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&#34;    &lt;empty&gt;&#34;</span><span class="p">)</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// 备份流程
+</span><span class="c1"></span><span class="kd">func</span> <span class="nx">backup</span><span class="p">()</span> <span class="p">{</span>
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Info</span><span class="p">(</span><span class="s">&#34;Start backup&#34;</span><span class="p">)</span>
+	<span class="nx">packaging</span><span class="p">()</span>
+	<span class="nx">upload</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="c1">// 恢复流程
+</span><span class="c1"></span><span class="kd">func</span> <span class="nx">restore</span><span class="p">()</span> <span class="p">{</span>
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Info</span><span class="p">(</span><span class="s">&#34;Start restore&#34;</span><span class="p">)</span>
+	<span class="nx">download</span><span class="p">()</span>
+	<span class="nx">unpacking</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="c1">// 打包文件,给定源文件/目录,设置打包后的文件
+</span><span class="c1"></span><span class="kd">func</span> <span class="nx">packaging</span><span class="p">()</span> <span class="p">{</span>
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Info</span><span class="p">(</span><span class="s">&#34;Start packaging files&#34;</span><span class="p">)</span>
+	<span class="nx">file</span> <span class="o">:=</span> <span class="nx">configs</span><span class="p">[</span><span class="s">&#34;source&#34;</span><span class="p">]</span>
+
+	<span class="nx">dir</span> <span class="o">:=</span> <span class="nx">filepath</span><span class="p">.</span><span class="nx">Dir</span><span class="p">(</span><span class="nx">file</span><span class="p">)</span>
+	<span class="nx">name</span> <span class="o">:=</span> <span class="nx">filepath</span><span class="p">.</span><span class="nx">Base</span><span class="p">(</span><span class="nx">file</span><span class="p">)</span>
+	<span class="nx">tarball</span> <span class="o">:=</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Sprintf</span><span class="p">(</span><span class="s">&#34;%s/%s_%s.tar.gz&#34;</span><span class="p">,</span> <span class="nx">tmpdir</span><span class="p">,</span> <span class="nx">name</span><span class="p">,</span> <span class="nx">today</span><span class="p">)</span>
+	<span class="nx">tar</span> <span class="o">:=</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Sprintf</span><span class="p">(</span><span class="s">&#34;tar czf %s -C %s %s&#34;</span><span class="p">,</span> <span class="nx">tarball</span><span class="p">,</span> <span class="nx">dir</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span>
+	<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;tar file %s to %s ...\n&#34;</span><span class="p">,</span> <span class="nx">file</span><span class="p">,</span> <span class="nx">tarball</span><span class="p">)</span>
+
+	<span class="nx">c</span> <span class="o">:=</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">Fields</span><span class="p">(</span><span class="nx">tar</span><span class="p">)</span>
+	<span class="nx">cmd</span> <span class="o">:=</span> <span class="nx">exec</span><span class="p">.</span><span class="nx">Command</span><span class="p">(</span><span class="nx">c</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">c</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">...</span><span class="p">)</span>
+	<span class="nx">out</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">cmd</span><span class="p">.</span><span class="nx">CombinedOutput</span><span class="p">()</span>
+	<span class="k">if</span> <span class="kc">nil</span> <span class="o">!=</span> <span class="nx">err</span> <span class="p">{</span>
+		<span class="nx">log</span><span class="p">.</span><span class="nx">Error</span><span class="p">(</span><span class="s">&#34;Execute tar command failed.&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+		<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;Packaging file %s failed.\n&#34;</span><span class="p">,</span> <span class="nx">file</span><span class="p">)</span>
+		<span class="nx">waitAndExit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Info</span><span class="p">(</span><span class="nb">string</span><span class="p">(</span><span class="nx">out</span><span class="p">))</span>
+	<span class="k">if</span> <span class="nx">configs</span><span class="p">[</span><span class="s">&#34;action&#34;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#34;pack&#34;</span> <span class="p">{</span>
+		<span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">tarball</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="nx">configs</span><span class="p">[</span><span class="s">&#34;tarball&#34;</span><span class="p">]</span> <span class="p">=</span> <span class="nx">tarball</span>
+<span class="p">}</span>
+
+<span class="c1">// 解包文件
+</span><span class="c1"></span><span class="kd">func</span> <span class="nx">unpacking</span><span class="p">()</span> <span class="p">{</span>
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Info</span><span class="p">(</span><span class="s">&#34;Start unpacking files&#34;</span><span class="p">)</span>
+	<span class="c1">// TODO 功能实现
+</span><span class="c1"></span>	<span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&#34;Please manual backup the service files and unpack the file which download from OBS server.&#34;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// 上传文件到OBS
+</span><span class="c1"></span><span class="kd">func</span> <span class="nx">upload</span><span class="p">()</span> <span class="p">{</span>
+	<span class="nx">bucket</span> <span class="o">:=</span> <span class="nx">configs</span><span class="p">[</span><span class="s">&#34;bucket&#34;</span><span class="p">]</span>
+	<span class="nx">src</span> <span class="o">:=</span> <span class="nx">configs</span><span class="p">[</span><span class="s">&#34;source&#34;</span><span class="p">]</span>
+	<span class="nx">tarball</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">configs</span><span class="p">[</span><span class="s">&#34;tarball&#34;</span><span class="p">]</span>
+	<span class="k">if</span> <span class="p">(!</span><span class="nx">ok</span><span class="p">)</span> <span class="o">||</span> <span class="s">``</span> <span class="o">==</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">TrimSpace</span><span class="p">(</span><span class="nx">tarball</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nx">tarball</span> <span class="p">=</span> <span class="nx">src</span>
+	<span class="p">}</span>
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Info</span><span class="p">(</span><span class="s">&#34;Start upload file %s to bucket %s&#34;</span><span class="p">,</span> <span class="nx">tarball</span><span class="p">,</span> <span class="nx">bucket</span><span class="p">)</span>
+
+	<span class="nx">f</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Stat</span><span class="p">(</span><span class="nx">tarball</span><span class="p">)</span>
+	<span class="k">if</span> <span class="kc">nil</span> <span class="o">!=</span> <span class="nx">err</span> <span class="p">{</span>
+		<span class="nx">log</span><span class="p">.</span><span class="nx">Error</span><span class="p">(</span><span class="s">&#34;Upload source file &#34;</span><span class="p">,</span> <span class="nx">tarball</span><span class="p">,</span> <span class="s">&#34; not exist.&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+		<span class="nx">waitAndExit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="p">!</span><span class="nx">checkBucketExist</span><span class="p">(</span><span class="nx">bucket</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nx">log</span><span class="p">.</span><span class="nx">Warn</span><span class="p">(</span><span class="s">&#34;Bucket %s is not exist, create it now.&#34;</span><span class="p">,</span> <span class="nx">bucket</span><span class="p">)</span>
+		<span class="k">if</span> <span class="p">!</span><span class="nx">createBucket</span><span class="p">(</span><span class="nx">bucket</span><span class="p">)</span> <span class="p">{</span>
+			<span class="nx">log</span><span class="p">.</span><span class="nx">Error</span><span class="p">(</span><span class="s">&#34;Create bucket &#34;</span><span class="p">,</span> <span class="nx">bucket</span><span class="p">,</span> <span class="s">&#34; failed.&#34;</span><span class="p">)</span>
+			<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;Create bucket %s failed.\n&#34;</span><span class="p">,</span> <span class="nx">bucket</span><span class="p">)</span>
+			<span class="nx">waitAndExit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="c1">// source: /opt/huawei/service-manager, Base: service-manager
+</span><span class="c1"></span>	<span class="nx">dir</span> <span class="o">:=</span> <span class="nx">filepath</span><span class="p">.</span><span class="nx">Base</span><span class="p">(</span><span class="nx">src</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">pkgnamereg</span><span class="p">.</span><span class="nx">MatchString</span><span class="p">(</span><span class="nx">dir</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nx">sss</span> <span class="o">:=</span> <span class="nx">pkgtailreg</span><span class="p">.</span><span class="nx">Split</span><span class="p">(</span><span class="nx">dir</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+		<span class="k">if</span> <span class="s">``</span> <span class="o">!=</span> <span class="nx">sss</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">{</span>
+			<span class="nx">dir</span> <span class="p">=</span> <span class="nx">sss</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="nx">ball</span> <span class="o">:=</span> <span class="nx">filepath</span><span class="p">.</span><span class="nx">Base</span><span class="p">(</span><span class="nx">tarball</span><span class="p">)</span>
+	<span class="kd">var</span> <span class="nx">product</span> <span class="kt">string</span>
+	<span class="k">switch</span> <span class="p">{</span>
+	<span class="k">case</span> <span class="p">(</span><span class="nx">strings</span><span class="p">.</span><span class="nx">Contains</span><span class="p">(</span><span class="nx">src</span><span class="p">,</span> <span class="s">&#34;bigdata&#34;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">!</span><span class="nx">strings</span><span class="p">.</span><span class="nx">Contains</span><span class="p">(</span><span class="nx">src</span><span class="p">,</span> <span class="s">&#34;billing/bigdata&#34;</span><span class="p">))</span> <span class="o">||</span> <span class="nx">bigdatareg</span><span class="p">.</span><span class="nx">MatchString</span><span class="p">(</span><span class="nx">src</span><span class="p">):</span>
+		<span class="nx">product</span> <span class="p">=</span> <span class="s">&#34;bigdata&#34;</span>
+	<span class="k">case</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">Contains</span><span class="p">(</span><span class="nx">src</span><span class="p">,</span> <span class="s">&#34;inforsight&#34;</span><span class="p">):</span>
+		<span class="nx">product</span> <span class="p">=</span> <span class="s">&#34;inforsight&#34;</span>
+	<span class="k">case</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">Contains</span><span class="p">(</span><span class="nx">src</span><span class="p">,</span> <span class="s">&#34;streamsmart&#34;</span><span class="p">):</span>
+		<span class="nx">product</span> <span class="p">=</span> <span class="s">&#34;streamsmart&#34;</span>
+	<span class="k">case</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">Contains</span><span class="p">(</span><span class="nx">src</span><span class="p">,</span> <span class="s">&#34;billing&#34;</span><span class="p">):</span>
+		<span class="nx">product</span> <span class="p">=</span> <span class="s">&#34;billing&#34;</span>
+	<span class="k">case</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">Contains</span><span class="p">(</span><span class="nx">src</span><span class="p">,</span> <span class="s">&#34;log&#34;</span><span class="p">):</span>
+		<span class="nx">product</span> <span class="p">=</span> <span class="s">&#34;database&#34;</span>
+	<span class="k">case</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">Contains</span><span class="p">(</span><span class="nx">src</span><span class="p">,</span> <span class="s">&#34;iam&#34;</span><span class="p">):</span>
+		<span class="nx">product</span> <span class="p">=</span> <span class="s">&#34;iam&#34;</span>
+	<span class="k">case</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">Contains</span><span class="p">(</span><span class="nx">src</span><span class="p">,</span> <span class="s">&#34;cert&#34;</span><span class="p">):</span>
+		<span class="nx">product</span> <span class="p">=</span> <span class="s">&#34;certificate&#34;</span>
+	<span class="k">default</span><span class="p">:</span>
+		<span class="nx">product</span> <span class="p">=</span> <span class="s">&#34;thirdparty&#34;</span>
+	<span class="p">}</span>
+	<span class="nx">object</span> <span class="o">:=</span> <span class="nx">filepath</span><span class="p">.</span><span class="nx">Join</span><span class="p">(</span><span class="nx">product</span><span class="p">,</span> <span class="nx">dir</span><span class="p">,</span> <span class="nx">configs</span><span class="p">[</span><span class="s">&#34;period&#34;</span><span class="p">],</span> <span class="nx">ball</span><span class="p">)</span>
+	<span class="nx">result</span><span class="p">,</span> <span class="nx">isExist</span> <span class="o">:=</span> <span class="nx">obs</span><span class="p">.</span><span class="nx">IsObjectExist</span><span class="p">(</span><span class="nx">bucket</span><span class="p">,</span> <span class="nx">object</span><span class="p">)</span>
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Debug</span><span class="p">(</span><span class="s">&#34;Check file exist result: %#v\n&#34;</span><span class="p">,</span> <span class="nx">result</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">result</span><span class="p">.</span><span class="nx">Err</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="c1">// 重复文件确认
+</span><span class="c1"></span>		<span class="k">if</span> <span class="nx">isExist</span> <span class="p">{</span>
+			<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">1000</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="mi">10000</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+				<span class="nx">object</span> <span class="p">=</span> <span class="nx">filepath</span><span class="p">.</span><span class="nx">Join</span><span class="p">(</span><span class="nx">product</span><span class="p">,</span> <span class="nx">dir</span><span class="p">,</span> <span class="nx">configs</span><span class="p">[</span><span class="s">&#34;period&#34;</span><span class="p">],</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">Join</span><span class="p">(</span><span class="nx">strings</span><span class="p">.</span><span class="nx">Split</span><span class="p">(</span><span class="nx">ball</span><span class="p">,</span> <span class="s">&#34;.tar.&#34;</span><span class="p">),</span> <span class="s">&#34;_&#34;</span><span class="o">+</span><span class="nx">strconv</span><span class="p">.</span><span class="nx">Itoa</span><span class="p">(</span><span class="nx">i</span><span class="p">)[</span><span class="mi">1</span><span class="p">:]</span><span class="o">+</span><span class="s">&#34;.tar.&#34;</span><span class="p">))</span>
+				<span class="nx">result</span><span class="p">,</span> <span class="nx">isExist</span> <span class="p">=</span> <span class="nx">obs</span><span class="p">.</span><span class="nx">IsObjectExist</span><span class="p">(</span><span class="nx">bucket</span><span class="p">,</span> <span class="nx">object</span><span class="p">)</span>
+				<span class="k">if</span> <span class="nx">result</span><span class="p">.</span><span class="nx">Err</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+					<span class="k">if</span> <span class="p">!</span><span class="nx">isExist</span> <span class="p">{</span>
+						<span class="k">break</span>
+					<span class="p">}</span>
+				<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+					<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;Check if file %s is exist in OBS server %s get error.\n&#34;</span><span class="p">,</span> <span class="nx">tarball</span><span class="p">,</span> <span class="nx">bucket</span><span class="p">)</span>
+					<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;Retry %d times...\n&#34;</span><span class="p">,</span> <span class="nx">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+					<span class="nx">time</span><span class="p">.</span><span class="nx">Sleep</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+					<span class="k">if</span> <span class="mi">2</span> <span class="o">==</span> <span class="nx">i</span> <span class="p">{</span>
+						<span class="nx">log</span><span class="p">.</span><span class="nx">Error</span><span class="p">(</span><span class="s">&#34;Retry 3 times to check if &#34;</span><span class="p">,</span> <span class="nx">tarball</span><span class="p">,</span> <span class="s">&#34; is exist in OBS server get errors.&#34;</span><span class="p">)</span>
+						<span class="nx">waitAndExit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+					<span class="p">}</span>
+				<span class="p">}</span>
+			<span class="p">}</span>
+			<span class="k">if</span> <span class="nx">isExist</span> <span class="p">{</span>
+				<span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&#34;Backup files count is great than 1000 in one day, can not backup any more.&#34;</span><span class="p">)</span>
+				<span class="nx">waitAndExit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+		<span class="nx">log</span><span class="p">.</span><span class="nx">Error</span><span class="p">(</span><span class="s">&#34;Check if file &#34;</span><span class="p">,</span> <span class="nx">tarball</span><span class="p">,</span> <span class="s">&#34; is exist in OBS server &#34;</span><span class="p">,</span> <span class="nx">bucket</span><span class="p">,</span> <span class="s">&#34; get error.&#34;</span><span class="p">)</span>
+		<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;Check if file %s is exist in OBS server %s get error.\n&#34;</span><span class="p">,</span> <span class="nx">tarball</span><span class="p">,</span> <span class="nx">bucket</span><span class="p">)</span>
+		<span class="nx">waitAndExit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="nx">input</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">models</span><span class="p">.</span><span class="nx">PutObjectInput</span><span class="p">{</span>
+		<span class="nx">Bucket</span><span class="p">:</span>     <span class="nx">bucket</span><span class="p">,</span>
+		<span class="nx">Object</span><span class="p">:</span>     <span class="nx">object</span><span class="p">,</span>
+		<span class="nx">SourceFile</span><span class="p">:</span> <span class="nx">tarball</span><span class="p">,</span>
+	<span class="p">}</span>
+
+	<span class="nx">size</span> <span class="o">:=</span> <span class="nx">f</span><span class="p">.</span><span class="nx">Size</span><span class="p">()</span>
+	<span class="nx">show</span> <span class="o">:=</span> <span class="p">(</span><span class="nx">configs</span><span class="p">[</span><span class="s">&#34;showprogress&#34;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#34;true&#34;</span><span class="p">)</span>
+	<span class="kd">var</span> <span class="nx">bar</span> <span class="o">*</span><span class="nx">pb</span><span class="p">.</span><span class="nx">ProgressBar</span>
+	<span class="k">if</span> <span class="nx">show</span> <span class="p">{</span>
+		<span class="nx">bar</span> <span class="p">=</span> <span class="nx">pb</span><span class="p">.</span><span class="nx">New64</span><span class="p">(</span><span class="nx">size</span><span class="p">).</span><span class="nx">Start</span><span class="p">()</span>
+	<span class="p">}</span>
+
+	<span class="kd">var</span> <span class="nx">output</span> <span class="o">*</span><span class="nx">models</span><span class="p">.</span><span class="nx">PutObjectOutPut</span>
+
+	<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;Upload file %s to bucket %s ...\n&#34;</span><span class="p">,</span> <span class="nx">tarball</span><span class="p">,</span> <span class="nx">bucket</span><span class="p">)</span>
+	<span class="nx">getCount</span><span class="p">,</span> <span class="nx">reschan</span><span class="p">,</span> <span class="nx">outchan</span> <span class="o">:=</span> <span class="nx">obs</span><span class="p">.</span><span class="nx">PutObjectWithProgress</span><span class="p">(</span><span class="nx">input</span><span class="p">)</span>
+	<span class="nx">ticker</span> <span class="o">:=</span> <span class="nx">time</span><span class="p">.</span><span class="nx">NewTicker</span><span class="p">(</span><span class="mi">500</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Millisecond</span><span class="p">).</span><span class="nx">C</span>
+<span class="nx">loop</span><span class="p">:</span>
+	<span class="k">for</span> <span class="p">{</span>
+		<span class="k">select</span> <span class="p">{</span>
+		<span class="k">case</span> <span class="nx">result</span> <span class="p">=</span> <span class="o">&lt;-</span><span class="nx">reschan</span><span class="p">:</span>
+			<span class="nx">output</span> <span class="p">=</span> <span class="o">&lt;-</span><span class="nx">outchan</span>
+			<span class="k">break</span> <span class="nx">loop</span>
+		<span class="k">case</span> <span class="o">&lt;-</span><span class="nx">ticker</span><span class="p">:</span>
+			<span class="k">if</span> <span class="nx">show</span> <span class="p">{</span>
+				<span class="nx">c</span> <span class="o">:=</span> <span class="nx">getCount</span><span class="p">()</span>
+				<span class="k">if</span> <span class="nx">c</span> <span class="o">&lt;=</span> <span class="nx">size</span> <span class="p">{</span>
+					<span class="nx">bar</span><span class="p">.</span><span class="nx">Set64</span><span class="p">(</span><span class="nx">c</span><span class="p">)</span>
+				<span class="p">}</span>
+			<span class="p">}</span>
+		<span class="k">case</span> <span class="o">&lt;-</span><span class="nx">time</span><span class="p">.</span><span class="nx">After</span><span class="p">(</span><span class="mi">24</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Hour</span><span class="p">):</span>
+			<span class="nx">log</span><span class="p">.</span><span class="nx">Error</span><span class="p">(</span><span class="s">&#34;Upload file timeout after 24 hours.&#34;</span><span class="p">)</span>
+			<span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&#34;Upload file timeout after 24 hours.&#34;</span><span class="p">)</span>
+			<span class="nx">waitAndExit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	<span class="k">if</span> <span class="kc">nil</span> <span class="o">==</span> <span class="nx">result</span><span class="p">.</span><span class="nx">Err</span> <span class="o">&amp;&amp;</span> <span class="nx">result</span><span class="p">.</span><span class="nx">StatusCode</span> <span class="p">&lt;</span> <span class="nx">http</span><span class="p">.</span><span class="nx">StatusMultipleChoices</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="nx">show</span> <span class="p">{</span>
+			<span class="nx">bar</span><span class="p">.</span><span class="nx">Set64</span><span class="p">(</span><span class="nx">size</span><span class="p">)</span>
+			<span class="nx">bar</span><span class="p">.</span><span class="nx">Finish</span><span class="p">()</span>
+		<span class="p">}</span>
+		<span class="nx">cleanOld</span><span class="p">()</span>
+	<span class="p">}</span>
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Debug</span><span class="p">(</span><span class="s">&#34;Upload file result: %#v&#34;</span><span class="p">,</span> <span class="nx">result</span><span class="p">)</span>
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Debug</span><span class="p">(</span><span class="s">&#34;Upload file output: %#v&#34;</span><span class="p">,</span> <span class="nx">output</span><span class="p">)</span>
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Info</span><span class="p">(</span><span class="s">&#34;Upload file %s to bucket %s finish.&#34;</span><span class="p">,</span> <span class="nx">tarball</span><span class="p">,</span> <span class="nx">bucket</span><span class="p">)</span>
+	<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;Upload file to bucket %s path: /%s\n&#34;</span><span class="p">,</span> <span class="nx">bucket</span><span class="p">,</span> <span class="nx">object</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// 从OBS下载文件
+</span><span class="c1"></span><span class="kd">func</span> <span class="nx">download</span><span class="p">()</span> <span class="p">{</span>
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Info</span><span class="p">(</span><span class="s">&#34;Start download files&#34;</span><span class="p">)</span>
+	<span class="c1">// 下载对象
+</span><span class="c1"></span>	<span class="nx">tarball</span> <span class="o">:=</span> <span class="nx">configs</span><span class="p">[</span><span class="s">&#34;source&#34;</span><span class="p">]</span>
+	<span class="k">for</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">HasPrefix</span><span class="p">(</span><span class="nx">tarball</span><span class="p">,</span> <span class="s">`/`</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nx">tarball</span> <span class="p">=</span> <span class="nx">tarball</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+	<span class="p">}</span>
+
+	<span class="nx">object</span> <span class="o">:=</span> <span class="nx">tarball</span>
+	<span class="nx">result</span><span class="p">,</span> <span class="nx">isExist</span> <span class="o">:=</span> <span class="nx">obs</span><span class="p">.</span><span class="nx">IsObjectExist</span><span class="p">(</span><span class="nx">configs</span><span class="p">[</span><span class="s">&#34;bucket&#34;</span><span class="p">],</span> <span class="nx">object</span><span class="p">)</span>
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Debug</span><span class="p">(</span><span class="s">&#34;Check file exist result: %#v&#34;</span><span class="p">,</span> <span class="nx">result</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">result</span><span class="p">.</span><span class="nx">Err</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">!</span><span class="nx">isExist</span> <span class="p">{</span>
+			<span class="nx">log</span><span class="p">.</span><span class="nx">Error</span><span class="p">(</span><span class="s">&#34;Check file &#34;</span><span class="p">,</span> <span class="nx">tarball</span><span class="p">,</span> <span class="s">&#34; is not exist in OBS server.&#34;</span><span class="p">)</span>
+			<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;Check file %s is not exist in OBS server.\n&#34;</span><span class="p">,</span> <span class="nx">tarball</span><span class="p">)</span>
+			<span class="nx">waitAndExit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+		<span class="p">}</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+		<span class="nx">log</span><span class="p">.</span><span class="nx">Error</span><span class="p">(</span><span class="s">&#34;Check if file &#34;</span><span class="p">,</span> <span class="nx">tarball</span><span class="p">,</span> <span class="s">&#34; is exist in OBS server &#34;</span><span class="p">,</span> <span class="nx">configs</span><span class="p">[</span><span class="s">&#34;bucket&#34;</span><span class="p">],</span> <span class="s">&#34; get error.&#34;</span><span class="p">)</span>
+		<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;Check if file %s is exist in OBS server %s get error.\n&#34;</span><span class="p">,</span> <span class="nx">tarball</span><span class="p">,</span> <span class="nx">configs</span><span class="p">[</span><span class="s">&#34;bucket&#34;</span><span class="p">])</span>
+		<span class="nx">waitAndExit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="nx">ball</span> <span class="o">:=</span> <span class="nx">filepath</span><span class="p">.</span><span class="nx">Base</span><span class="p">(</span><span class="nx">tarball</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Stat</span><span class="p">(</span><span class="nx">ball</span><span class="p">);</span> <span class="nx">err</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nx">log</span><span class="p">.</span><span class="nx">Warn</span><span class="p">(</span><span class="s">&#34;File %s is already exist in current directory.&#34;</span><span class="p">,</span> <span class="nx">ball</span><span class="p">)</span>
+		<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;File %s is already exist in current directory.\n&#34;</span><span class="p">,</span> <span class="nx">ball</span><span class="p">)</span>
+		<span class="nx">waitAndExit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="nx">input</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">models</span><span class="p">.</span><span class="nx">GetObjectInput</span><span class="p">{</span>
+		<span class="nx">Bucket</span><span class="p">:</span>         <span class="nx">configs</span><span class="p">[</span><span class="s">&#34;bucket&#34;</span><span class="p">],</span>
+		<span class="nx">Object</span><span class="p">:</span>         <span class="nx">object</span><span class="p">,</span>
+		<span class="nx">SaveAsFilePath</span><span class="p">:</span> <span class="nx">ball</span><span class="p">,</span>
+	<span class="p">}</span>
+
+	<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;Download file %s from bucket %s ...\n&#34;</span><span class="p">,</span> <span class="nx">ball</span><span class="p">,</span> <span class="nx">configs</span><span class="p">[</span><span class="s">&#34;bucket&#34;</span><span class="p">])</span>
+	<span class="nx">getCount</span><span class="p">,</span> <span class="nx">reschan</span><span class="p">,</span> <span class="nx">output</span> <span class="o">:=</span> <span class="nx">obs</span><span class="p">.</span><span class="nx">GetObjectWithProgress</span><span class="p">(</span><span class="nx">input</span><span class="p">)</span>
+	<span class="nx">size</span> <span class="o">:=</span> <span class="nx">output</span><span class="p">.</span><span class="nx">ContentLength</span>
+	<span class="nx">show</span> <span class="o">:=</span> <span class="p">(</span><span class="nx">configs</span><span class="p">[</span><span class="s">&#34;showprogress&#34;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#34;true&#34;</span><span class="p">)</span>
+	<span class="kd">var</span> <span class="nx">bar</span> <span class="o">*</span><span class="nx">pb</span><span class="p">.</span><span class="nx">ProgressBar</span>
+	<span class="k">if</span> <span class="nx">show</span> <span class="p">{</span>
+		<span class="nx">bar</span> <span class="p">=</span> <span class="nx">pb</span><span class="p">.</span><span class="nx">New64</span><span class="p">(</span><span class="nx">size</span><span class="p">).</span><span class="nx">Start</span><span class="p">()</span>
+	<span class="p">}</span>
+	<span class="nx">ticker</span> <span class="o">:=</span> <span class="nx">time</span><span class="p">.</span><span class="nx">NewTicker</span><span class="p">(</span><span class="mi">500</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Millisecond</span><span class="p">).</span><span class="nx">C</span>
+<span class="nx">loop</span><span class="p">:</span>
+	<span class="k">for</span> <span class="p">{</span>
+		<span class="k">select</span> <span class="p">{</span>
+		<span class="k">case</span> <span class="nx">result</span> <span class="p">=</span> <span class="o">&lt;-</span><span class="nx">reschan</span><span class="p">:</span>
+			<span class="k">break</span> <span class="nx">loop</span>
+		<span class="k">case</span> <span class="o">&lt;-</span><span class="nx">ticker</span><span class="p">:</span>
+			<span class="k">if</span> <span class="nx">show</span> <span class="p">{</span>
+				<span class="nx">c</span> <span class="o">:=</span> <span class="nx">getCount</span><span class="p">()</span>
+				<span class="k">if</span> <span class="nx">c</span> <span class="o">&lt;=</span> <span class="nx">size</span> <span class="p">{</span>
+					<span class="nx">bar</span><span class="p">.</span><span class="nx">Set64</span><span class="p">(</span><span class="nx">c</span><span class="p">)</span>
+				<span class="p">}</span>
+			<span class="p">}</span>
+		<span class="k">case</span> <span class="o">&lt;-</span><span class="nx">time</span><span class="p">.</span><span class="nx">After</span><span class="p">(</span><span class="mi">24</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Hour</span><span class="p">):</span>
+			<span class="nx">log</span><span class="p">.</span><span class="nx">Error</span><span class="p">(</span><span class="s">&#34;Download file timeout after 24 hours.&#34;</span><span class="p">)</span>
+			<span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&#34;Download file timeout after 24 hours.&#34;</span><span class="p">)</span>
+			<span class="nx">waitAndExit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="kc">nil</span> <span class="o">==</span> <span class="nx">result</span><span class="p">.</span><span class="nx">Err</span> <span class="o">&amp;&amp;</span> <span class="nx">result</span><span class="p">.</span><span class="nx">StatusCode</span> <span class="p">&lt;</span> <span class="nx">http</span><span class="p">.</span><span class="nx">StatusMultipleChoices</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="nx">show</span> <span class="p">{</span>
+			<span class="nx">bar</span><span class="p">.</span><span class="nx">Set64</span><span class="p">(</span><span class="nx">size</span><span class="p">)</span>
+			<span class="nx">bar</span><span class="p">.</span><span class="nx">Finish</span><span class="p">()</span>
+		<span class="p">}</span>
+		<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;Download file %s finish.\n&#34;</span><span class="p">,</span> <span class="nx">tarball</span><span class="p">)</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+		<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;Download file %s get error: %s\n&#34;</span><span class="p">,</span> <span class="nx">tarball</span><span class="p">,</span> <span class="nx">result</span><span class="p">.</span><span class="nx">Err</span><span class="p">.</span><span class="nx">Error</span><span class="p">())</span>
+	<span class="p">}</span>
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Info</span><span class="p">(</span><span class="s">&#34;Download file %s output: %#v\n&#34;</span><span class="p">,</span> <span class="nx">tarball</span><span class="p">,</span> <span class="nx">output</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// 清理过时的备份文件
+</span><span class="c1"></span><span class="kd">func</span> <span class="nx">cleanOld</span><span class="p">()</span> <span class="p">{</span>
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Info</span><span class="p">(</span><span class="s">&#34;Start clean old backup files&#34;</span><span class="p">)</span>
+	<span class="c1">// 移除临时备份目录中的文件
+</span><span class="c1"></span>	<span class="k">defer</span> <span class="nx">os</span><span class="p">.</span><span class="nx">RemoveAll</span><span class="p">(</span><span class="nx">tmpdir</span><span class="p">)</span>
+
+	<span class="nx">num</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">strconv</span><span class="p">.</span><span class="nx">Atoi</span><span class="p">(</span><span class="nx">configs</span><span class="p">[</span><span class="s">&#34;maxnum&#34;</span><span class="p">])</span>
+	<span class="k">if</span> <span class="kc">nil</span> <span class="o">!=</span> <span class="nx">err</span> <span class="p">{</span>
+		<span class="k">switch</span> <span class="nx">configs</span><span class="p">[</span><span class="s">&#34;period&#34;</span><span class="p">]</span> <span class="p">{</span>
+		<span class="k">case</span> <span class="nx">periodDay</span><span class="p">:</span>
+			<span class="nx">num</span> <span class="p">=</span> <span class="mi">7</span>
+		<span class="k">case</span> <span class="nx">periodWeek</span><span class="p">:</span>
+			<span class="nx">num</span> <span class="p">=</span> <span class="mi">4</span>
+		<span class="k">case</span> <span class="nx">periodMonth</span><span class="p">:</span>
+			<span class="nx">num</span> <span class="p">=</span> <span class="mi">12</span>
+		<span class="k">default</span><span class="p">:</span>
+			<span class="nx">num</span> <span class="p">=</span> <span class="mi">0</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="nx">num</span> <span class="p">&gt;</span> <span class="mi">0</span> <span class="p">{</span>
+		<span class="c1">//获取桶内对象
+</span><span class="c1"></span>		<span class="nx">input</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">models</span><span class="p">.</span><span class="nx">ListObjectsInput</span><span class="p">{</span>
+			<span class="nx">Bucket</span><span class="p">:</span> <span class="nx">configs</span><span class="p">[</span><span class="s">&#34;bucket&#34;</span><span class="p">],</span>
+		<span class="p">}</span>
+		<span class="nx">result</span><span class="p">,</span> <span class="nx">output</span> <span class="o">:=</span> <span class="nx">obs</span><span class="p">.</span><span class="nx">ListObjects</span><span class="p">(</span><span class="nx">input</span><span class="p">)</span>
+		<span class="k">if</span> <span class="kc">nil</span> <span class="o">!=</span> <span class="nx">result</span><span class="p">.</span><span class="nx">Err</span> <span class="o">||</span> <span class="nx">result</span><span class="p">.</span><span class="nx">StatusCode</span> <span class="o">&gt;=</span> <span class="nx">http</span><span class="p">.</span><span class="nx">StatusMultipleChoices</span> <span class="o">||</span> <span class="nx">output</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+			<span class="nx">log</span><span class="p">.</span><span class="nx">Error</span><span class="p">(</span><span class="s">&#34;List objects in bucket &#34;</span><span class="p">,</span> <span class="nx">configs</span><span class="p">[</span><span class="s">&#34;bucket&#34;</span><span class="p">],</span> <span class="s">&#34; failed.&#34;</span><span class="p">)</span>
+			<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;List objects in bucket %s failed.\n&#34;</span><span class="p">,</span> <span class="nx">configs</span><span class="p">[</span><span class="s">&#34;bucket&#34;</span><span class="p">])</span>
+			<span class="k">return</span>
+		<span class="p">}</span>
+
+		<span class="nx">files</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">string</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">output</span><span class="p">.</span><span class="nx">Contents</span><span class="p">))</span>
+		<span class="nx">dir</span> <span class="o">:=</span> <span class="nx">filepath</span><span class="p">.</span><span class="nx">Base</span><span class="p">(</span><span class="nx">configs</span><span class="p">[</span><span class="s">&#34;source&#34;</span><span class="p">])</span>
+		<span class="nx">object</span> <span class="o">:=</span> <span class="nx">filepath</span><span class="p">.</span><span class="nx">Join</span><span class="p">(</span><span class="s">&#34;bigdata&#34;</span><span class="p">,</span> <span class="nx">dir</span><span class="p">,</span> <span class="nx">configs</span><span class="p">[</span><span class="s">&#34;period&#34;</span><span class="p">],</span> <span class="nx">dir</span><span class="p">)</span>
+		<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">c</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">output</span><span class="p">.</span><span class="nx">Contents</span> <span class="p">{</span>
+			<span class="c1">// 一天内重复备份的文件暂时不处理, 只清理每天定时备份的文件
+</span><span class="c1"></span>			<span class="k">if</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">HasPrefix</span><span class="p">(</span><span class="nx">c</span><span class="p">.</span><span class="nx">Key</span><span class="p">,</span> <span class="nx">object</span><span class="p">)</span> <span class="p">{</span>
+				<span class="nx">files</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">files</span><span class="p">,</span> <span class="nx">c</span><span class="p">.</span><span class="nx">Key</span><span class="p">)</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+		<span class="nx">sort</span><span class="p">.</span><span class="nx">Strings</span><span class="p">(</span><span class="nx">files</span><span class="p">)</span>
+
+		<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nx">files</span><span class="p">)</span> <span class="p">&gt;</span> <span class="nx">num</span> <span class="p">{</span>
+			<span class="nx">delFiles</span> <span class="o">:=</span> <span class="nx">files</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="nx">files</span><span class="p">)</span><span class="o">-</span><span class="nx">num</span><span class="p">]</span>
+			<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;Delete old backup files: \n%v\n&#34;</span><span class="p">,</span> <span class="nx">delFiles</span><span class="p">)</span>
+
+			<span class="nx">objs</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="nx">models</span><span class="p">.</span><span class="nx">Object</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">delFiles</span><span class="p">))</span>
+			<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">f</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">delFiles</span> <span class="p">{</span>
+				<span class="nx">objs</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">objs</span><span class="p">,</span> <span class="nx">models</span><span class="p">.</span><span class="nx">Object</span><span class="p">{</span>
+					<span class="nx">Object</span><span class="p">:</span> <span class="nx">f</span><span class="p">,</span>
+				<span class="p">})</span>
+			<span class="p">}</span>
+			<span class="c1">//批量删除对象
+</span><span class="c1"></span>			<span class="nx">input</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">models</span><span class="p">.</span><span class="nx">DeleteObjectsInput</span><span class="p">{</span>
+				<span class="nx">Bucket</span><span class="p">:</span>  <span class="nx">configs</span><span class="p">[</span><span class="s">&#34;bucket&#34;</span><span class="p">],</span>
+				<span class="nx">Objects</span><span class="p">:</span> <span class="nx">objs</span><span class="p">,</span>
+			<span class="p">}</span>
+			<span class="nx">result</span><span class="p">,</span> <span class="nx">output</span> <span class="o">:=</span> <span class="nx">obs</span><span class="p">.</span><span class="nx">DeleteObjects</span><span class="p">(</span><span class="nx">input</span><span class="p">)</span>
+			<span class="k">if</span> <span class="kc">nil</span> <span class="o">!=</span> <span class="nx">result</span><span class="p">.</span><span class="nx">Err</span> <span class="o">||</span> <span class="nx">result</span><span class="p">.</span><span class="nx">StatusCode</span> <span class="o">&gt;=</span> <span class="nx">http</span><span class="p">.</span><span class="nx">StatusMultipleChoices</span> <span class="o">||</span> <span class="nx">output</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+				<span class="nx">log</span><span class="p">.</span><span class="nx">Error</span><span class="p">(</span><span class="s">&#34;List objects in bucket &#34;</span><span class="p">,</span> <span class="nx">configs</span><span class="p">[</span><span class="s">&#34;bucket&#34;</span><span class="p">],</span> <span class="s">&#34; failed.&#34;</span><span class="p">)</span>
+				<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;List objects in bucket %s failed.\n&#34;</span><span class="p">,</span> <span class="nx">configs</span><span class="p">[</span><span class="s">&#34;bucket&#34;</span><span class="p">])</span>
+				<span class="k">return</span>
+			<span class="p">}</span>
+			<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">val</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">output</span><span class="p">.</span><span class="nx">Errors</span> <span class="p">{</span>
+				<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;Delete old file %s failed, error: %s\n&#34;</span><span class="p">,</span> <span class="nx">val</span><span class="p">.</span><span class="nx">Key</span><span class="p">,</span> <span class="nx">val</span><span class="p">.</span><span class="nx">Code</span><span class="p">)</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// 主线程停一秒再退出, 防止日志没有记录完成.
+</span><span class="c1"></span><span class="kd">func</span> <span class="nx">waitAndExit</span><span class="p">(</span><span class="nx">code</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">time</span><span class="p">.</span><span class="nx">Sleep</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+	<span class="nx">os</span><span class="p">.</span><span class="nx">Exit</span><span class="p">(</span><span class="nx">code</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// 获取S3服务器中所有桶列表
+</span><span class="c1"></span><span class="kd">func</span> <span class="nx">listBuckets</span><span class="p">()</span> <span class="p">(</span><span class="nx">buckets</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Info</span><span class="p">(</span><span class="s">&#34;List bukect start...&#34;</span><span class="p">)</span>
+	<span class="nx">buckets</span> <span class="p">=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">string</span><span class="p">)</span>
+	<span class="kd">var</span> <span class="nx">res</span> <span class="o">*</span><span class="nx">models</span><span class="p">.</span><span class="nx">Result</span>
+	<span class="kd">var</span> <span class="nx">output</span> <span class="o">*</span><span class="nx">models</span><span class="p">.</span><span class="nx">ListBucketsOutput</span>
+	<span class="nx">ch</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kt">int</span><span class="p">)</span>
+	<span class="k">go</span> <span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
+		<span class="nx">res</span><span class="p">,</span> <span class="nx">output</span> <span class="p">=</span> <span class="nx">obs</span><span class="p">.</span><span class="nx">ListBuckets</span><span class="p">()</span>
+		<span class="nx">ch</span> <span class="o">&lt;-</span> <span class="mi">1</span>
+	<span class="p">}()</span>
+<span class="nx">loop</span><span class="p">:</span>
+	<span class="k">for</span> <span class="p">{</span>
+		<span class="k">select</span> <span class="p">{</span>
+		<span class="k">case</span> <span class="o">&lt;-</span><span class="nx">ch</span><span class="p">:</span>
+			<span class="k">break</span> <span class="nx">loop</span>
+		<span class="k">case</span> <span class="o">&lt;-</span><span class="nx">time</span><span class="p">.</span><span class="nx">After</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">):</span>
+			<span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&#34;Connect OBS server timeout after 10s.&#34;</span><span class="p">)</span>
+			<span class="nx">waitAndExit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Debug</span><span class="p">(</span><span class="s">&#34;List buckets request result: %#v\n&#34;</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span>
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Debug</span><span class="p">(</span><span class="s">&#34;List buckets output: %#v\n&#34;</span><span class="p">,</span> <span class="nx">output</span><span class="p">)</span>
+	<span class="k">if</span> <span class="kc">nil</span> <span class="o">!=</span> <span class="nx">res</span><span class="p">.</span><span class="nx">Err</span> <span class="o">||</span> <span class="nx">res</span><span class="p">.</span><span class="nx">StatusCode</span> <span class="o">&gt;=</span> <span class="nx">http</span><span class="p">.</span><span class="nx">StatusMultipleChoices</span> <span class="p">{</span>
+		<span class="nx">log</span><span class="p">.</span><span class="nx">Error</span><span class="p">(</span><span class="s">&#34;List buckets in OBS server failed, error: &#34;</span><span class="p">,</span> <span class="nx">res</span><span class="p">.</span><span class="nx">Err</span><span class="p">.</span><span class="nx">Error</span><span class="p">())</span>
+		<span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&#34;List buckets in OBS server failed, error: &#34;</span><span class="p">,</span> <span class="nx">res</span><span class="p">.</span><span class="nx">Err</span><span class="p">.</span><span class="nx">Error</span><span class="p">())</span>
+		<span class="nx">waitAndExit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="k">if</span> <span class="nx">output</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">b</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">output</span><span class="p">.</span><span class="nx">Buckets</span> <span class="p">{</span>
+			<span class="nx">buckets</span><span class="p">[</span><span class="nx">b</span><span class="p">.</span><span class="nx">Name</span><span class="p">]</span> <span class="p">=</span> <span class="nx">b</span><span class="p">.</span><span class="nx">CreationDate</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Debug</span><span class="p">(</span><span class="s">&#34;Get buckets list: %#v\n&#34;</span><span class="p">,</span> <span class="nx">buckets</span><span class="p">)</span>
+	<span class="k">return</span> <span class="nx">buckets</span>
+<span class="p">}</span>
+
+<span class="c1">// 检查指定名称的桶是否存在
+</span><span class="c1"></span><span class="kd">func</span> <span class="nx">checkBucketExist</span><span class="p">(</span><span class="nx">bucketName</span> <span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="nx">exist</span> <span class="kt">bool</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">buckets</span> <span class="o">:=</span> <span class="nx">listBuckets</span><span class="p">()</span>
+	<span class="k">if</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">buckets</span><span class="p">[</span><span class="nx">bucketName</span><span class="p">];</span> <span class="s">``</span> <span class="o">!=</span> <span class="nx">bucketName</span> <span class="o">&amp;&amp;</span> <span class="nx">ok</span> <span class="p">{</span>
+		<span class="nx">exist</span> <span class="p">=</span> <span class="kc">true</span>
+	<span class="p">}</span>
+	<span class="k">return</span>
+<span class="p">}</span>
+
+<span class="c1">// 创建给定名称的桶,返回创建结果
+</span><span class="c1"></span><span class="kd">func</span> <span class="nx">createBucket</span><span class="p">(</span><span class="nx">bucket</span> <span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="nx">succeed</span> <span class="kt">bool</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">input</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">models</span><span class="p">.</span><span class="nx">CreateBucketInput</span><span class="p">{</span><span class="nx">Bucket</span><span class="p">:</span> <span class="nx">bucket</span><span class="p">}</span>
+	<span class="nx">result</span> <span class="o">:=</span> <span class="nx">obs</span><span class="p">.</span><span class="nx">CreateBucket</span><span class="p">(</span><span class="nx">input</span><span class="p">)</span>
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Debug</span><span class="p">(</span><span class="s">&#34;Create bucket result: %#v&#34;</span><span class="p">,</span> <span class="nx">result</span><span class="p">)</span>
+	<span class="k">if</span> <span class="kc">nil</span> <span class="o">==</span> <span class="nx">result</span><span class="p">.</span><span class="nx">Err</span> <span class="o">&amp;&amp;</span> <span class="nx">result</span><span class="p">.</span><span class="nx">StatusCode</span> <span class="p">&lt;</span> <span class="nx">http</span><span class="p">.</span><span class="nx">StatusMultipleChoices</span> <span class="p">{</span>
+		<span class="nx">succeed</span> <span class="p">=</span> <span class="kc">true</span>
+	<span class="p">}</span>
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Info</span><span class="p">(</span><span class="s">&#34;Create bucket %s result: %v&#34;</span><span class="p">,</span> <span class="nx">bucket</span><span class="p">,</span> <span class="nx">succeed</span><span class="p">)</span>
+	<span class="k">return</span>
+<span class="p">}</span></code></pre></div>
+<ul>
+<li>random.go</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">const</span> <span class="p">(</span>
+	<span class="nx">lowercaseLetter</span> <span class="p">=</span> <span class="s">`abcdefghijklmnopqrstuvwxyz`</span>
+	<span class="nx">uppercaseLetter</span> <span class="p">=</span> <span class="s">`ABCDEFGHIJKLMNOPQRSTUVWXYZ`</span>
+	<span class="nx">digital</span>         <span class="p">=</span> <span class="s">`0123456789`</span>
+	<span class="nx">specialSymbols</span>  <span class="p">=</span> <span class="s">`@-_`</span>
+<span class="p">)</span>
+
+<span class="kd">func</span> <span class="nx">init</span><span class="p">()</span> <span class="p">{</span>
+	<span class="nx">rand</span><span class="p">.</span><span class="nx">Seed</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Now</span><span class="p">().</span><span class="nx">UnixNano</span><span class="p">())</span>
+<span class="p">}</span>
+
+<span class="c1">// RandString 生成指定长度(length)的随机密码pwd
+</span><span class="c1">//  密码长度为 4~64位, 超范围返回空密码
+</span><span class="c1">//  密码包含以下必选项:
+</span><span class="c1">//  小写字母: a-z
+</span><span class="c1">//  大写字母: A-Z
+</span><span class="c1">//  印度数字: 0-9
+</span><span class="c1">//  特殊符号: @-_
+</span><span class="c1"></span><span class="kd">func</span> <span class="nx">RandString</span><span class="p">(</span><span class="nx">length</span> <span class="kt">int</span><span class="p">)</span> <span class="p">(</span><span class="nx">pwd</span> <span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">if</span> <span class="nx">length</span> <span class="p">&lt;</span> <span class="mi">4</span> <span class="o">||</span> <span class="nx">length</span> <span class="p">&gt;</span> <span class="mi">64</span> <span class="p">{</span>
+		<span class="k">return</span>
+	<span class="p">}</span>
+	<span class="c1">// 1. 随机分配4种类型字符的数量
+</span><span class="c1"></span>	<span class="nx">assign</span> <span class="o">:=</span> <span class="p">[</span><span class="o">...</span><span class="p">]</span><span class="kt">int</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">}</span>
+	<span class="nx">types</span> <span class="o">:=</span> <span class="nb">len</span><span class="p">(</span><span class="nx">assign</span><span class="p">)</span>
+	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="p">(</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">4</span><span class="p">);</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+		<span class="nx">assign</span><span class="p">[</span><span class="nx">rand</span><span class="p">.</span><span class="nx">Intn</span><span class="p">(</span><span class="nx">types</span><span class="p">)]</span><span class="o">++</span>
+	<span class="p">}</span>
+	<span class="nx">sum</span> <span class="o">:=</span> <span class="mi">0</span>
+	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">v</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">assign</span> <span class="p">{</span>
+		<span class="nx">sum</span> <span class="o">+=</span> <span class="nx">v</span>
+	<span class="p">}</span>
+	<span class="k">if</span> <span class="nx">length</span> <span class="o">!=</span> <span class="nx">sum</span> <span class="p">{</span>
+		<span class="k">return</span>
+	<span class="p">}</span>
+	<span class="c1">// 2. 根据各类型字符的数量,随机填充密码
+</span><span class="c1"></span>	<span class="nx">chars</span> <span class="o">:=</span> <span class="p">[][]</span><span class="kt">byte</span><span class="p">{</span>
+		<span class="p">[]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">lowercaseLetter</span><span class="p">),</span>
+		<span class="p">[]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">specialSymbols</span><span class="p">),</span>
+		<span class="p">[]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">uppercaseLetter</span><span class="p">),</span>
+		<span class="p">[]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">digital</span><span class="p">),</span>
+	<span class="p">}</span>
+	<span class="nx">pwds</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">byte</span><span class="p">,</span> <span class="nx">length</span><span class="p">)</span>
+	<span class="nx">index</span> <span class="o">:=</span> <span class="mi">0</span>
+	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">pwds</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="nx">types</span> <span class="p">&gt;</span> <span class="mi">1</span> <span class="p">{</span>
+			<span class="nx">index</span> <span class="p">=</span> <span class="nx">rand</span><span class="p">.</span><span class="nx">Intn</span><span class="p">(</span><span class="nx">types</span><span class="p">)</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+			<span class="nx">index</span> <span class="p">=</span> <span class="mi">0</span>
+		<span class="p">}</span>
+		<span class="nx">pwds</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="p">=</span> <span class="nx">chars</span><span class="p">[</span><span class="nx">index</span><span class="p">][</span><span class="nx">rand</span><span class="p">.</span><span class="nx">Intn</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nx">chars</span><span class="p">[</span><span class="nx">index</span><span class="p">]))]</span>
+		<span class="k">if</span> <span class="nx">assign</span><span class="p">[</span><span class="nx">index</span><span class="p">]</span><span class="o">--</span><span class="p">;</span> <span class="nx">assign</span><span class="p">[</span><span class="nx">index</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="p">{</span>
+			<span class="nx">types</span><span class="o">--</span>
+			<span class="nx">assign</span><span class="p">[</span><span class="nx">index</span><span class="p">],</span> <span class="nx">assign</span><span class="p">[</span><span class="nx">types</span><span class="p">]</span> <span class="p">=</span> <span class="nx">assign</span><span class="p">[</span><span class="nx">types</span><span class="p">],</span> <span class="nx">assign</span><span class="p">[</span><span class="nx">index</span><span class="p">]</span>
+			<span class="nx">chars</span><span class="p">[</span><span class="nx">index</span><span class="p">],</span> <span class="nx">chars</span><span class="p">[</span><span class="nx">types</span><span class="p">]</span> <span class="p">=</span> <span class="nx">chars</span><span class="p">[</span><span class="nx">types</span><span class="p">],</span> <span class="nx">chars</span><span class="p">[</span><span class="nx">index</span><span class="p">]</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	<span class="c1">// 3. 随机打乱生成的密码序
+</span><span class="c1"></span>	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">pwds</span> <span class="p">{</span>
+		<span class="nx">n</span> <span class="o">:=</span> <span class="nx">rand</span><span class="p">.</span><span class="nx">Intn</span><span class="p">(</span><span class="nx">length</span><span class="p">)</span>
+		<span class="nx">pwds</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span> <span class="nx">pwds</span><span class="p">[</span><span class="nx">n</span><span class="p">]</span> <span class="p">=</span> <span class="nx">pwds</span><span class="p">[</span><span class="nx">n</span><span class="p">],</span> <span class="nx">pwds</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span>
+	<span class="p">}</span>
+	<span class="nx">pwd</span> <span class="p">=</span> <span class="nb">string</span><span class="p">(</span><span class="nx">pwds</span><span class="p">)</span>
+	<span class="k">return</span>
+<span class="p">}</span></code></pre></div>
+<ul>
+<li>sftp.go</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">sftp</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+	<span class="s">&#34;errors&#34;</span>
+	<span class="s">&#34;fmt&#34;</span>
+	<span class="s">&#34;io&#34;</span>
+	<span class="s">&#34;os&#34;</span>
+	<span class="s">&#34;path/filepath&#34;</span>
+	<span class="s">&#34;strings&#34;</span>
+	<span class="s">&#34;time&#34;</span>
+
+	<span class="s">&#34;github.com/pkg/sftp&#34;</span>
+	<span class="s">&#34;golang.org/x/crypto/ssh&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">type</span> <span class="nx">sftpClient</span> <span class="kd">struct</span> <span class="p">{</span>
+	<span class="nx">host</span><span class="p">,</span> <span class="nx">user</span><span class="p">,</span> <span class="nx">password</span> <span class="kt">string</span>
+	<span class="nx">port</span>                 <span class="kt">int</span>
+	<span class="o">*</span><span class="nx">sftp</span><span class="p">.</span><span class="nx">Client</span>
+<span class="p">}</span>
+
+<span class="c1">// Create a new SFTP connection by given parameters
+</span><span class="c1"></span><span class="kd">func</span> <span class="nx">NewConn</span><span class="p">(</span><span class="nx">host</span><span class="p">,</span> <span class="nx">user</span><span class="p">,</span> <span class="nx">password</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">port</span> <span class="kt">int</span><span class="p">)</span> <span class="p">(</span><span class="nx">client</span> <span class="o">*</span><span class="nx">sftpClient</span><span class="p">,</span> <span class="nx">err</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">switch</span> <span class="p">{</span>
+	<span class="k">case</span> <span class="s">``</span> <span class="o">==</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">TrimSpace</span><span class="p">(</span><span class="nx">host</span><span class="p">),</span>
+		<span class="s">``</span> <span class="o">==</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">TrimSpace</span><span class="p">(</span><span class="nx">user</span><span class="p">),</span>
+		<span class="s">``</span> <span class="o">==</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">TrimSpace</span><span class="p">(</span><span class="nx">password</span><span class="p">),</span>
+		<span class="mi">0</span> <span class="o">&gt;=</span> <span class="nx">port</span> <span class="o">||</span> <span class="nx">port</span> <span class="p">&gt;</span> <span class="mi">65535</span><span class="p">:</span>
+		<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">errors</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="s">&#34;Invalid parameters&#34;</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="nx">client</span> <span class="p">=</span> <span class="o">&amp;</span><span class="nx">sftpClient</span><span class="p">{</span>
+		<span class="nx">host</span><span class="p">:</span>     <span class="nx">host</span><span class="p">,</span>
+		<span class="nx">user</span><span class="p">:</span>     <span class="nx">user</span><span class="p">,</span>
+		<span class="nx">password</span><span class="p">:</span> <span class="nx">password</span><span class="p">,</span>
+		<span class="nx">port</span><span class="p">:</span>     <span class="nx">port</span><span class="p">,</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">connect</span><span class="p">();</span> <span class="kc">nil</span> <span class="o">!=</span> <span class="nx">err</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">err</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="nx">client</span><span class="p">,</span> <span class="kc">nil</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="p">(</span><span class="nx">sc</span> <span class="o">*</span><span class="nx">sftpClient</span><span class="p">)</span> <span class="nx">connect</span><span class="p">()</span> <span class="p">(</span><span class="nx">err</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">config</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">ssh</span><span class="p">.</span><span class="nx">ClientConfig</span><span class="p">{</span>
+		<span class="nx">User</span><span class="p">:</span>    <span class="nx">sc</span><span class="p">.</span><span class="nx">user</span><span class="p">,</span>
+		<span class="nx">Auth</span><span class="p">:</span>    <span class="p">[]</span><span class="nx">ssh</span><span class="p">.</span><span class="nx">AuthMethod</span><span class="p">{</span><span class="nx">ssh</span><span class="p">.</span><span class="nx">Password</span><span class="p">(</span><span class="nx">sc</span><span class="p">.</span><span class="nx">password</span><span class="p">)},</span>
+		<span class="nx">Timeout</span><span class="p">:</span> <span class="mi">30</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">,</span>
+	<span class="p">}</span>
+
+	<span class="c1">// connet to ssh
+</span><span class="c1"></span>	<span class="nx">addr</span> <span class="o">:=</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Sprintf</span><span class="p">(</span><span class="s">&#34;%s:%d&#34;</span><span class="p">,</span> <span class="nx">sc</span><span class="p">.</span><span class="nx">host</span><span class="p">,</span> <span class="nx">sc</span><span class="p">.</span><span class="nx">port</span><span class="p">)</span>
+	<span class="nx">conn</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">ssh</span><span class="p">.</span><span class="nx">Dial</span><span class="p">(</span><span class="s">&#34;tcp&#34;</span><span class="p">,</span> <span class="nx">addr</span><span class="p">,</span> <span class="nx">config</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nx">err</span>
+	<span class="p">}</span>
+
+	<span class="c1">// create sftp client
+</span><span class="c1"></span>	<span class="nx">client</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">sftp</span><span class="p">.</span><span class="nx">NewClient</span><span class="p">(</span><span class="nx">conn</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nx">err</span>
+	<span class="p">}</span>
+	<span class="nx">sc</span><span class="p">.</span><span class="nx">Client</span> <span class="p">=</span> <span class="nx">client</span>
+
+	<span class="k">return</span> <span class="kc">nil</span>
+<span class="p">}</span>
+
+<span class="c1">// Upload file to sftp server
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">sc</span> <span class="o">*</span><span class="nx">sftpClient</span><span class="p">)</span> <span class="nx">Put</span><span class="p">(</span><span class="nx">localFile</span><span class="p">,</span> <span class="nx">remoteFile</span> <span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="nx">err</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">srcFile</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Open</span><span class="p">(</span><span class="nx">localFile</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span>
+	<span class="p">}</span>
+	<span class="k">defer</span> <span class="nx">srcFile</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
+
+	<span class="c1">// Make remote directories recursion
+</span><span class="c1"></span>	<span class="nx">parent</span> <span class="o">:=</span> <span class="nx">filepath</span><span class="p">.</span><span class="nx">Dir</span><span class="p">(</span><span class="nx">remoteFile</span><span class="p">)</span>
+	<span class="nx">path</span> <span class="o">:=</span> <span class="nb">string</span><span class="p">(</span><span class="nx">filepath</span><span class="p">.</span><span class="nx">Separator</span><span class="p">)</span>
+	<span class="nx">dirs</span> <span class="o">:=</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">Split</span><span class="p">(</span><span class="nx">parent</span><span class="p">,</span> <span class="nx">path</span><span class="p">)</span>
+	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">dir</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">dirs</span> <span class="p">{</span>
+		<span class="nx">path</span> <span class="p">=</span> <span class="nx">filepath</span><span class="p">.</span><span class="nx">Join</span><span class="p">(</span><span class="nx">path</span><span class="p">,</span> <span class="nx">dir</span><span class="p">)</span>
+		<span class="nx">sc</span><span class="p">.</span><span class="nx">Mkdir</span><span class="p">(</span><span class="nx">path</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="nx">dstFile</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">sc</span><span class="p">.</span><span class="nx">Create</span><span class="p">(</span><span class="nx">remoteFile</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span>
+	<span class="p">}</span>
+	<span class="k">defer</span> <span class="nx">dstFile</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
+
+	<span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">io</span><span class="p">.</span><span class="nx">Copy</span><span class="p">(</span><span class="nx">dstFile</span><span class="p">,</span> <span class="nx">srcFile</span><span class="p">)</span>
+	<span class="k">return</span>
+<span class="p">}</span>
+
+<span class="c1">// Download file from sftp server
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">sc</span> <span class="o">*</span><span class="nx">sftpClient</span><span class="p">)</span> <span class="nx">Get</span><span class="p">(</span><span class="nx">remoteFile</span><span class="p">,</span> <span class="nx">localFile</span> <span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="nx">err</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">srcFile</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">sc</span><span class="p">.</span><span class="nx">Open</span><span class="p">(</span><span class="nx">remoteFile</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span>
+	<span class="p">}</span>
+	<span class="k">defer</span> <span class="nx">srcFile</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
+
+	<span class="nx">dstFile</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Create</span><span class="p">(</span><span class="nx">localFile</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span>
+	<span class="p">}</span>
+	<span class="k">defer</span> <span class="nx">dstFile</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
+
+	<span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">io</span><span class="p">.</span><span class="nx">Copy</span><span class="p">(</span><span class="nx">dstFile</span><span class="p">,</span> <span class="nx">srcFile</span><span class="p">)</span>
+	<span class="k">return</span>
+<span class="p">}</span></code></pre></div>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">标签</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://yougg.github.io/tags/cmd/">CMD</a>
+
+  <a class="tag tag--primary tag--small" href="https://yougg.github.io/tags/shell/">Shell</a>
+
+                  </div>
+                
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://yougg.github.io/2016/06/24/git%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E6%8F%90%E4%BA%A4%E8%AE%B0%E5%BD%95%E7%BB%9F%E8%AE%A1%E5%B7%A5%E5%85%B7/" data-tooltip="Git项目代码提交记录统计工具">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://yougg.github.io/2015/01/07/%E5%9F%BA%E4%BA%8Edocker%E7%9A%84%E8%BD%BB%E9%87%8F%E7%BA%A7xxoo%E7%B3%BB%E7%BB%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E5%AE%9E%E8%B7%B5/" data-tooltip="基于Docker的轻量级XXOO系统环境搭建实践">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yougg.github.io/2015/07/31/command-note/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://yougg.github.io/2015/07/31/command-note/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://yougg.github.io/2015/07/31/command-note/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2018 <a href="https://github.com/yougg">yougg</a>. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://yougg.github.io/2016/06/24/git%E9%A1%B9%E7%9B%AE%E4%BB%A3%E7%A0%81%E6%8F%90%E4%BA%A4%E8%AE%B0%E5%BD%95%E7%BB%9F%E8%AE%A1%E5%B7%A5%E5%85%B7/" data-tooltip="Git项目代码提交记录统计工具">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://yougg.github.io/2015/01/07/%E5%9F%BA%E4%BA%8Edocker%E7%9A%84%E8%BD%BB%E9%87%8F%E7%BA%A7xxoo%E7%B3%BB%E7%BB%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E5%AE%9E%E8%B7%B5/" data-tooltip="基于Docker的轻量级XXOO系统环境搭建实践">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yougg.github.io/2015/07/31/command-note/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://yougg.github.io/2015/07/31/command-note/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://yougg.github.io/2015/07/31/command-note/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fyougg.github.io%2F2015%2F07%2F31%2Fcommand-note%2F">
+          <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fyougg.github.io%2F2015%2F07%2F31%2Fcommand-note%2F">
+          <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fyougg.github.io%2F2015%2F07%2F31%2Fcommand-note%2F">
+          <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="http://pic.k73.com/up/soft/2016/0919/172704_71255408.png" alt="作者的图片" />
+    
+    <h4 id="about-card-name">yougg</h4>
+    
+      <div id="about-card-bio">和咸鱼没有什么区别的偶尔写<del><em>不想写</em></del>博客的码农</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        搬砖
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        中国 深圳
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="搜索" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center"></div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://yougg.github.io/2018/04/18/%E5%93%B2%E5%AD%A6%E7%B3%BB%E6%80%9D%E6%83%B3%E5%9B%BE%E8%B0%B1/">
+                <h3 class="media-heading">哲学系思想图谱</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Apr 4, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">中国哲学简史 西方哲学系图谱：从公元前5世纪到1900年 古希腊罗马哲学包括自然哲学、形而上学和伦理哲学三个阶段，为西方哲学的理性思辨和形而上学</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://yougg.github.io/2018/02/13/go%E8%AF%AD%E8%A8%80%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/">
+                <h3 class="media-heading">Go语言排序算法笔记</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Feb 2, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">冒泡排序 排序实现 给定一个N个元素的数组 比较相邻的一对元素(a,b) 如果元素乱序，交换元素(当前情况是a&gt;b) 重复步骤1和2，直到到达数</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://yougg.github.io/2017/12/19/go%E8%AF%AD%E8%A8%80%E9%9D%A2%E8%AF%95%E9%A2%98%E6%B1%87%E9%9B%86/">
+                <h3 class="media-heading">Go语言面试题汇集</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Dec 12, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">goroutine 的调度顺序是随机的 package main import ( &#34;fmt&#34; &#34;sync&#34; ) func main() { //runtime.GOMAXPROCS(1) //runtime.GOMAXPROCS(runtime.NumCPU()) n := 10 wg := new(sync.WaitGroup) wg.Add(n) for i := 0; i &lt; n; i++ { i := i go func() { fmt.Printf(&#34;%d &#34;, i) wg.Done() }() } wg.Wait() fmt.Println() } 以下4种执行方式的输出差别 GOMAXPROCS=1 go run main.go</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://yougg.github.io/2017/12/11/%E4%BD%BF%E7%94%A8cassandra/">
+                <h3 class="media-heading">使用Cassandra</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Dec 12, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Golang访问Cassandra的客户端gocql 事务支持 INSERT INTO tablex (column_a, column_b, column_c) VALUES (&#39;a&#39;,&#39;b&#39;,&#39;c&#39;) IF NOT EXISTS; UPDATE tablex SET column_a = &#39;x&#39;, column_b = &#39;y&#39;, column_c = &#39;z&#39; WHERE column_a = &#39;a&#39; IF column_a = &#39;a&#39;; SQL语句转义 var replacer</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://yougg.github.io/2017/11/30/%E6%89%93%E9%80%A0goland%E9%9B%86%E6%88%90%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/">
+                <h3 class="media-heading">打造GoLand集成开发环境</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Nov 11, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">安装必备工具 下载安装以下软件，确保执行命令的路径都已添加到系统环境变量PATH中 Golang 安装向导 使用默认安装路径 Notepad++ 安装向导 使用默认安装路径 勾选默认</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://yougg.github.io/2017/11/25/goland%E4%B8%AD%E4%BD%BF%E7%94%A8plantuml%E7%94%9F%E6%88%90go-uml%E5%9B%BE/">
+                <h3 class="media-heading">GoLand中使用PlantUML生成Go UML图</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Nov 11, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">确保如下软件已安装并添加到PATH中可执行 Java Golang GoLand Graphviz GoLand中安装PlantUML插件 点击菜单 File -&gt; Settings -&gt; Plugins -&gt; Browse repositories... 搜索框输入PlantUML，</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://yougg.github.io/2017/10/23/go-net/http-%E8%B6%85%E6%97%B6%E6%9C%BA%E5%88%B6%E5%AE%8C%E5%85%A8%E6%89%8B%E5%86%8C/">
+                <h3 class="media-heading">Go net/http 超时机制完全手册</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Oct 10, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Go net/http 超时机制完全手册</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://yougg.github.io/2017/09/04/%E6%81%A2%E5%A4%8D%E9%97%B2%E9%B1%BC%E7%BD%91%E9%A1%B5%E7%89%88%E7%9A%84%E6%90%9C%E7%B4%A2%E6%A1%86/">
+                <h3 class="media-heading">恢复闲鱼网页版的搜索框</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Sep 9, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">参考链接： 闲鱼搜索框</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://yougg.github.io/2017/08/28/public-key-infrastructure-certificate-apply-guide/">
+                <h3 class="media-heading">Public Key Infrastructure Certificate Apply Guide</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Aug 8, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">生成XXX服务组件(service DB)的私钥和证书签发请求 service服务证书签发请求和RSA私钥(PKCS#1)已废弃 # 生成servi</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://yougg.github.io/2017/08/24/%E7%94%A8go%E8%AF%AD%E8%A8%80%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84mysql%E5%AE%A2%E6%88%B7%E7%AB%AF/">
+                <h3 class="media-heading">用Go语言写一个简单的MySQL客户端</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Aug 8, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">项目需要验证一下MySQL服务启用安全通信证书双向认证在Go中是否可行，以便后续将服务代码快捷的切换到SSL安全通道上。服务功能来做验证对环</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
+         57 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('https://yougg.github.io/images/cover.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://yougg.github.io/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/yougg.github.io\/2015\/07\/31\/command-note\/';
+          
+            this.page.identifier = '\/2015\/07\/31\/command-note\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'yougg';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Blog on Yougg&#39;s Blog</title>
+    <link>https://yougg.github.io/tags/blog/</link>
+    <description>Recent content in Blog on Yougg&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 18 Apr 2018 02:31:27 +0000</lastBuildDate>
+    
+	<atom:link href="https://yougg.github.io/tags/blog/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>哲学系思想图谱</title>
+      <link>https://yougg.github.io/2018/04/18/%E5%93%B2%E5%AD%A6%E7%B3%BB%E6%80%9D%E6%83%B3%E5%9B%BE%E8%B0%B1/</link>
+      <pubDate>Wed, 18 Apr 2018 02:31:27 +0000</pubDate>
+      
+      <guid>https://yougg.github.io/2018/04/18/%E5%93%B2%E5%AD%A6%E7%B3%BB%E6%80%9D%E6%83%B3%E5%9B%BE%E8%B0%B1/</guid>
+      <description>中国哲学简史 西方哲学系图谱：从公元前5世纪到1900年 古希腊罗马哲学包括自然哲学、形而上学和伦理哲学三个阶段，为西方哲学的理性思辨和形而上学</description>
+    </item>
+    
+    <item>
+      <title>我的静态博客搭建流程</title>
+      <link>https://yougg.github.io/2017/06/27/%E6%88%91%E7%9A%84%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%B5%81%E7%A8%8B/</link>
+      <pubDate>Tue, 27 Jun 2017 14:36:16 +0800</pubDate>
+      
+      <guid>https://yougg.github.io/2017/06/27/%E6%88%91%E7%9A%84%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%B5%81%E7%A8%8B/</guid>
+      <description>根据GitHub静态博客向导: https://pages.github.com/ 在GitHub创建名为 username.github.io 的空仓库 username 为自己的GitHub账号，此处我的账号为yougg 如果之前已经创建过个人博</description>
+    </item>
+    
+  </channel>
+</rss>

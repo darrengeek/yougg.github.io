@@ -1,0 +1,944 @@
+
+
+  
+    
+  
+
+
+  
+
+
+
+
+
+  
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.39 with theme Tranquilpeak 0.4.3-BETA">
+    <title>Public Key Infrastructure Certificate Apply Guide</title>
+    <meta name="author" content="yougg">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="https://yougg.github.io/favicon.png">
+    
+
+    
+    <meta name="description" content="生成XXX服务组件(service DB)的私钥和证书签发请求 service服务证书签发请求和RSA私钥(PKCS#1)已废弃 # 生成servi">
+    <meta property="og:description" content="生成XXX服务组件(service DB)的私钥和证书签发请求 service服务证书签发请求和RSA私钥(PKCS#1)已废弃 # 生成servi">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="Public Key Infrastructure Certificate Apply Guide">
+    <meta property="og:url" content="/2017/08/28/public-key-infrastructure-certificate-apply-guide/">
+    <meta property="og:site_name" content="Yougg&#39;s Blog">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Yougg&#39;s Blog">
+    <meta name="twitter:description" content="生成XXX服务组件(service DB)的私钥和证书签发请求 service服务证书签发请求和RSA私钥(PKCS#1)已废弃 # 生成servi">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="http://pic.k73.com/up/soft/2016/0919/172704_71255408.png">
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://yougg.github.io/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+      
+        <link rel="stylesheet"  href="https://yougg.github.io/css/fruity.css">
+      
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="5">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://yougg.github.io/">Yougg&#39;s Blog</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://yougg.github.io/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="http://pic.k73.com/up/soft/2016/0919/172704_71255408.png" alt="作者的图片" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="5">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://yougg.github.io/#about">
+          <img class="sidebar-profile-picture" src="http://pic.k73.com/up/soft/2016/0919/172704_71255408.png" alt="作者的图片" />
+        </a>
+        <h4 class="sidebar-profile-name">yougg</h4>
+        
+          <h5 class="sidebar-profile-bio">和咸鱼没有什么区别的偶尔写<del><em>不想写</em></del>博客的码农</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://yougg.github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">首页</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://yougg.github.io/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">分类</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://yougg.github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">标签</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://yougg.github.io/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">归档</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://yougg.github.io/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">关于</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/yougg" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://stackoverflow.com/users/9087310/yougg" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-stack-overflow"></i>
+      
+      <span class="sidebar-button-desc">Stack Overflow</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="5"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      Public Key Infrastructure Certificate Apply Guide
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2017-08-28T15:50:10&#43;08:00">
+        
+  
+  
+  
+  
+    2017年8月28日 15时50分10秒
+  
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://yougg.github.io/categories/document">Document</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <ol>
+<li><p>生成XXX服务组件(<code>service</code> <code>DB</code>)的私钥和证书签发请求</p>
+
+<ul>
+<li><p><del>service服务证书签发请求和RSA私钥(PKCS#1)</del><code>已废弃</code></p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># 生成service明文RSA私钥
+</span><span class="c1"></span>openssl genrsa -out service.key <span class="m">4096</span>
+<span class="c1"># 使用service.key生成service的服务证书签发请求
+</span><span class="c1"></span>openssl req -new -newhdr -days <span class="m">3650</span> -subj <span class="s1">&#39;/C=CN/ST=Guangdong/L=Shenzhen/O=XXOO/OU=OOuu/CN=service.xxx.com&#39;</span> -key service.key -out service.csr</code></pre></div></li>
+
+<li><p>生成service/DB的服务证书签发请求和RSA私钥(PKCS#8)</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># service/DB证书请求和RSA私钥
+</span><span class="c1"></span>openssl req -new -newhdr -nodes -sha512 -days <span class="m">3650</span> -subj <span class="s1">&#39;/C=CN/O=XXOO/CN=svc.xxx.com&#39;</span> -newkey rsa:4096 -keyout service.pem -out service.csr
+openssl req -new -newhdr -nodes -sha512 -days <span class="m">3650</span> -subj <span class="s1">&#39;/C=CN/O=XXOO/CN=db.xxx.com&#39;</span> -newkey rsa:4096 -keyout svcdb.pem -out svcdb.csr
+
+<span class="c1"># 生成几个随机密码替换为下面几个服务私钥的密码
+</span><span class="c1"></span><span class="k">for</span> i in <span class="o">{</span><span class="m">1</span>..2<span class="o">}</span><span class="p">;</span> <span class="k">do</span>
+    tr -cd <span class="s1">&#39;a-z0-9&#39;</span> &lt; /dev/urandom <span class="p">|</span> head -c32<span class="p">;</span> <span class="nb">echo</span>
+<span class="k">done</span>
+
+<span class="c1"># 转换私钥为PKCS#8格式并加密 (Go代码依赖的pkcs8包解析密钥密码时，硬编码了hash函数为sha1，所以此处转换私钥时强制使用hmacWithSHA1)
+</span><span class="c1"></span>openssl pkcs8 -in service.pem -out service.key -topk8 -passout pass:aaaaaaaa -v2 aes-256-cbc -iter <span class="m">65536</span> -v2prf hmacWithSHA1
+openssl pkcs8 -in svcdb.pem -out svcdb.key -topk8 -passout pass:bbbbbbbb -v2 aes-256-cbc -iter <span class="m">65536</span> -v2prf hmacWithSHA1
+
+<span class="c1"># 验证生成的证书私钥文件
+</span><span class="c1"></span>openssl rsa -check -noout -passin pass:aaaaaaaa -in service.key
+openssl rsa -check -noout -passin pass:bbbbbbbb -in svcdb.key
+
+<span class="c1"># 验证生成的证书签发请求文件
+</span><span class="c1"></span>openssl req -verify -noout -in service.csr
+openssl req -verify -noout -in svcdb.csr</code></pre></div></li>
+
+<li><p>使用自签发的CA根证书对证书签发请求进行签发测试</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># 生成自签发根证书和私钥
+</span><span class="c1"></span>openssl req -new -x509 -sha512 -newkey rsa:4096 -keyout test_ca.key -days <span class="m">3650</span> -out test_ca.crt -subj <span class="s1">&#39;/C=CN/ST=Guangdong/L=Shenzhen/O=XXOO/OU=OOuu/CN=*.xxx.com&#39;</span> -passout pass:tttttttt
+<span class="c1"># 使用根证书与证书请求文件签发服务证书
+</span><span class="c1"></span>openssl x509 -req -CA test_ca.crt -CAkey test_ca.key -set_serial <span class="m">7</span> -passin pass:tttttttt -in svcdb.csr -out test_svcdb.crt
+<span class="c1"># 认证签发的服务证书
+</span><span class="c1"></span>openssl verify -CAfile test_svcca.crt test_svcdb.crt
+
+<span class="c1"># 测试验证通过后删除临时文件
+</span><span class="c1"></span>rm -f test_*</code></pre></div></li>
+</ul></li>
+
+<li><p>到XXX机构申请签发服务证书</p>
+
+<ul>
+<li><p><code>证书申请</code> -&gt; <code>SSL和TLS证书</code> -&gt; 填写申请信息：</p>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>申请人</td>
+<td></td>
+<td>申请时间</td>
+<td>2017-09-12 19:21:05</td>
+</tr>
+
+<tr>
+<td>申请人部门</td>
+<td>XXOO产品部</td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>所属人</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>部门信息</td>
+<td>XXOO产品部</td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>产品线</td>
+<td>OOuu</td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>产品分类</td>
+<td>XXOO Service</td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>证书模板</td>
+<td>SSL Server 10-year</td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>密钥算法</td>
+<td>RSA</td>
+<td>哈希算法</td>
+<td>SHA256</td>
+</tr>
+
+<tr>
+<td>有效期(天)</td>
+<td>3650</td>
+<td>到期时间（预期）</td>
+<td>2027-09-10 19:56:30</td>
+</tr>
+
+<tr>
+<td>申请理由</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+<p><code>添加CSR</code>上传上一步生成的所有<code>.csr</code>文件，提交申请</p></li>
+
+<li><p>下载签发成功的service服务证书到本地，查看证书信息</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">openssl x509 -noout -text -in service.crt
+openssl x509 -noout -text -in svcdb.crt</code></pre></div></li>
+
+<li><p>下载服务根证书进行验证</p>
+
+<p>一级根证书、二级根证书，将两级CA根证书合并为一个文件<code>svcca.crt</code></p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">awk <span class="s1">&#39;{print $0}&#39;</span> ca0.crt ca1.crt &gt; svcca.crt</code></pre></div>
+<!--
+```
+-----BEGIN CERTIFICATE-----
+......
+-----END CERTIFICATE-----
+
+-----BEGIN CERTIFICATE-----
+......
+-----END CERTIFICATE-----
+```
+-->
+
+<p>使用根证书根证书认证签发下来的服务证书</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># 使用下面3种的任意一种方式进行认证
+</span><span class="c1"></span>openssl verify -CAfile svcca.crt *.crt
+openssl verify -trusted svcca.crt *.crt
+openssl verify -CAfile ca1.crt -untrusted ca0.crt *.crt</code></pre></div></li>
+</ul></li>
+
+<li><p>替换旧的服务证书</p>
+
+<ul>
+<li><p>使用<code>certtool</code>工具导入service服务的私钥和签发的证书到JavaKeyStore中</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">certtool -import -jks -certin service.crt -keyin service.key -passin aaaaaaaa -jksout service.jks -trust svcca.crt</code></pre></div></li>
+
+<li><p>将CA根证书加入到service/DB服务的证书链中</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="o">(</span>echo<span class="p">;</span> cat svcca.crt<span class="o">)</span> &gt;&gt; service.crt
+<span class="o">(</span>echo<span class="p">;</span> cat svcca.crt<span class="o">)</span> &gt;&gt; svcdb.crt</code></pre></div></li>
+
+<li><p>更新Knox服务CA根证书</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># openssl req -new -key knoxca.key -passin pass:ffffffff -out newknox.csr -subj &#39;/C=CN/ST=Guangdong/L=Shenzhen/O=XXOO/OU=OOuu/CN=knox.xxx.com&#39;
+</span><span class="c1"># openssl x509 -req -days 3650 -in newknox.csr -signkey knoxca.key -passin pass:ffffffff -out newknoxca.crt
+</span><span class="c1"></span>openssl req -new -x509 -days <span class="m">3650</span> -sha512 -key knoxca.key -passin pass:ffffffff -out newknoxca.crt -subj <span class="s1">&#39;/C=CN/ST=Guangdong/L=Shenzhen/O=XXOO/OU=OOuu/CN=knox.xxx.com&#39;</span>
+rm -f newknox.csr
+mv knox_root_ca.key knoxca.key
+mv newknoxca.crt knoxca.crt</code></pre></div></li>
+</ul></li>
+
+<li><p>服务证书相关问题答疑</p>
+
+<ul>
+<li><p><font style="color: #FF5A79;font-size: 1.5em;">❓</font> 未申请PKI签发Knox服务的证书</p>
+
+<blockquote>
+<p>　　在创建集群时需要有service服务动态的为每个集群签发新服务证书，然后下发到执行层提供给Knox服务。XXX机构并不支持XXOO服务在不同环境部署时的动态签发证书申请，所以Knox服务证书的签发仍然按原来的流程执行：创建集群时由service服务使用自签发的<code>knoxca.crt</code>CA根证书根据集群信息动态签发Knox服务证书。</p>
+</blockquote></li>
+
+<li><p><font style="color: rgb(250, 125, 0);font-size: 1.5em;">⚠️</font> 双向证书认证</p>
+
+<blockquote>
+<p>　　管理面现在使用IP地址直连通信，启用双向证书认证后对服务的域名校验存在问题，需要使用DNS服务注册管理面各服务的域名，证书使用域名签发。<br />
+如果不使用域名签发，则需要把服务器的IP地址列表添加到证书的IP SANs列表中。</p>
+</blockquote></li>
+</ul></li>
+</ol>
+
+<hr />
+
+<p><em><strong>参考链接：</strong></em></p>
+
+<ul>
+<li><a href="https://www.openssl.org/docs/man1.1.0/apps/">OpenSSL命令参考手册</a><br /></li>
+<li><a href="https://serverfault.com/questions/306345/certification-authority-root-certificate-expiry-and-renewal">Certification authority root certificate expiry and renewal</a></li>
+</ul>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">标签</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://yougg.github.io/tags/openssl/">OpenSSL</a>
+
+  <a class="tag tag--primary tag--small" href="https://yougg.github.io/tags/certificate/">Certificate</a>
+
+  <a class="tag tag--primary tag--small" href="https://yougg.github.io/tags/javakeystore/">JavaKeyStore</a>
+
+                  </div>
+                
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://yougg.github.io/2017/09/04/%E6%81%A2%E5%A4%8D%E9%97%B2%E9%B1%BC%E7%BD%91%E9%A1%B5%E7%89%88%E7%9A%84%E6%90%9C%E7%B4%A2%E6%A1%86/" data-tooltip="恢复闲鱼网页版的搜索框">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://yougg.github.io/2017/08/24/%E7%94%A8go%E8%AF%AD%E8%A8%80%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84mysql%E5%AE%A2%E6%88%B7%E7%AB%AF/" data-tooltip="用Go语言写一个简单的MySQL客户端">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yougg.github.io/2017/08/28/public-key-infrastructure-certificate-apply-guide/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://yougg.github.io/2017/08/28/public-key-infrastructure-certificate-apply-guide/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://yougg.github.io/2017/08/28/public-key-infrastructure-certificate-apply-guide/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2018 <a href="https://github.com/yougg">yougg</a>. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://yougg.github.io/2017/09/04/%E6%81%A2%E5%A4%8D%E9%97%B2%E9%B1%BC%E7%BD%91%E9%A1%B5%E7%89%88%E7%9A%84%E6%90%9C%E7%B4%A2%E6%A1%86/" data-tooltip="恢复闲鱼网页版的搜索框">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://yougg.github.io/2017/08/24/%E7%94%A8go%E8%AF%AD%E8%A8%80%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84mysql%E5%AE%A2%E6%88%B7%E7%AB%AF/" data-tooltip="用Go语言写一个简单的MySQL客户端">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://yougg.github.io/2017/08/28/public-key-infrastructure-certificate-apply-guide/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://yougg.github.io/2017/08/28/public-key-infrastructure-certificate-apply-guide/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://yougg.github.io/2017/08/28/public-key-infrastructure-certificate-apply-guide/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fyougg.github.io%2F2017%2F08%2F28%2Fpublic-key-infrastructure-certificate-apply-guide%2F">
+          <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fyougg.github.io%2F2017%2F08%2F28%2Fpublic-key-infrastructure-certificate-apply-guide%2F">
+          <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fyougg.github.io%2F2017%2F08%2F28%2Fpublic-key-infrastructure-certificate-apply-guide%2F">
+          <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="http://pic.k73.com/up/soft/2016/0919/172704_71255408.png" alt="作者的图片" />
+    
+    <h4 id="about-card-name">yougg</h4>
+    
+      <div id="about-card-bio">和咸鱼没有什么区别的偶尔写<del><em>不想写</em></del>博客的码农</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        搬砖
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        中国 深圳
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="搜索" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center"></div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://yougg.github.io/2018/04/18/%E5%93%B2%E5%AD%A6%E7%B3%BB%E6%80%9D%E6%83%B3%E5%9B%BE%E8%B0%B1/">
+                <h3 class="media-heading">哲学系思想图谱</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Apr 4, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">中国哲学简史 西方哲学系图谱：从公元前5世纪到1900年 古希腊罗马哲学包括自然哲学、形而上学和伦理哲学三个阶段，为西方哲学的理性思辨和形而上学</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://yougg.github.io/2018/02/13/go%E8%AF%AD%E8%A8%80%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/">
+                <h3 class="media-heading">Go语言排序算法笔记</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Feb 2, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">冒泡排序 排序实现 给定一个N个元素的数组 比较相邻的一对元素(a,b) 如果元素乱序，交换元素(当前情况是a&gt;b) 重复步骤1和2，直到到达数</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://yougg.github.io/2017/12/19/go%E8%AF%AD%E8%A8%80%E9%9D%A2%E8%AF%95%E9%A2%98%E6%B1%87%E9%9B%86/">
+                <h3 class="media-heading">Go语言面试题汇集</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Dec 12, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">goroutine 的调度顺序是随机的 package main import ( &#34;fmt&#34; &#34;sync&#34; ) func main() { //runtime.GOMAXPROCS(1) //runtime.GOMAXPROCS(runtime.NumCPU()) n := 10 wg := new(sync.WaitGroup) wg.Add(n) for i := 0; i &lt; n; i++ { i := i go func() { fmt.Printf(&#34;%d &#34;, i) wg.Done() }() } wg.Wait() fmt.Println() } 以下4种执行方式的输出差别 GOMAXPROCS=1 go run main.go</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://yougg.github.io/2017/12/11/%E4%BD%BF%E7%94%A8cassandra/">
+                <h3 class="media-heading">使用Cassandra</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Dec 12, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Golang访问Cassandra的客户端gocql 事务支持 INSERT INTO tablex (column_a, column_b, column_c) VALUES (&#39;a&#39;,&#39;b&#39;,&#39;c&#39;) IF NOT EXISTS; UPDATE tablex SET column_a = &#39;x&#39;, column_b = &#39;y&#39;, column_c = &#39;z&#39; WHERE column_a = &#39;a&#39; IF column_a = &#39;a&#39;; SQL语句转义 var replacer</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://yougg.github.io/2017/11/30/%E6%89%93%E9%80%A0goland%E9%9B%86%E6%88%90%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/">
+                <h3 class="media-heading">打造GoLand集成开发环境</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Nov 11, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">安装必备工具 下载安装以下软件，确保执行命令的路径都已添加到系统环境变量PATH中 Golang 安装向导 使用默认安装路径 Notepad++ 安装向导 使用默认安装路径 勾选默认</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://yougg.github.io/2017/11/25/goland%E4%B8%AD%E4%BD%BF%E7%94%A8plantuml%E7%94%9F%E6%88%90go-uml%E5%9B%BE/">
+                <h3 class="media-heading">GoLand中使用PlantUML生成Go UML图</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Nov 11, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">确保如下软件已安装并添加到PATH中可执行 Java Golang GoLand Graphviz GoLand中安装PlantUML插件 点击菜单 File -&gt; Settings -&gt; Plugins -&gt; Browse repositories... 搜索框输入PlantUML，</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://yougg.github.io/2017/10/23/go-net/http-%E8%B6%85%E6%97%B6%E6%9C%BA%E5%88%B6%E5%AE%8C%E5%85%A8%E6%89%8B%E5%86%8C/">
+                <h3 class="media-heading">Go net/http 超时机制完全手册</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Oct 10, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Go net/http 超时机制完全手册</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://yougg.github.io/2017/09/04/%E6%81%A2%E5%A4%8D%E9%97%B2%E9%B1%BC%E7%BD%91%E9%A1%B5%E7%89%88%E7%9A%84%E6%90%9C%E7%B4%A2%E6%A1%86/">
+                <h3 class="media-heading">恢复闲鱼网页版的搜索框</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Sep 9, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">参考链接： 闲鱼搜索框</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://yougg.github.io/2017/08/28/public-key-infrastructure-certificate-apply-guide/">
+                <h3 class="media-heading">Public Key Infrastructure Certificate Apply Guide</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Aug 8, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">生成XXX服务组件(service DB)的私钥和证书签发请求 service服务证书签发请求和RSA私钥(PKCS#1)已废弃 # 生成servi</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://yougg.github.io/2017/08/24/%E7%94%A8go%E8%AF%AD%E8%A8%80%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84mysql%E5%AE%A2%E6%88%B7%E7%AB%AF/">
+                <h3 class="media-heading">用Go语言写一个简单的MySQL客户端</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Aug 8, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">项目需要验证一下MySQL服务启用安全通信证书双向认证在Go中是否可行，以便后续将服务代码快捷的切换到SSL安全通道上。服务功能来做验证对环</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
+         57 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('https://yougg.github.io/images/cover.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://yougg.github.io/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/yougg.github.io\/2017\/08\/28\/public-key-infrastructure-certificate-apply-guide\/';
+          
+            this.page.identifier = '\/2017\/08\/28\/public-key-infrastructure-certificate-apply-guide\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'yougg';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+
